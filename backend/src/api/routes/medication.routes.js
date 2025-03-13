@@ -1,0 +1,1 @@
+// Placeholder for backend/src/api/routes/medication.routes.js

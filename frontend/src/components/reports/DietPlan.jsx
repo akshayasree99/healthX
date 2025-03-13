@@ -1,0 +1,1 @@
+// Placeholder for frontend/src/components/reports/DietPlan.jsx

@@ -1,0 +1,1 @@
+// Placeholder for backend/src/api/controllers/patient.controller.js

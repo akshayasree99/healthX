@@ -1,0 +1,1 @@
+// Placeholder for frontend/src/components/optional/mental-health/MentalHealthTracker.jsx
