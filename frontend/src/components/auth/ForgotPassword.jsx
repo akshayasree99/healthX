@@ -1,0 +1,1 @@
+// Placeholder for frontend/src/components/auth/ForgotPassword.jsx

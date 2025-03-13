@@ -1,0 +1,1 @@
+// Placeholder for backend/src/services/medication.service.js

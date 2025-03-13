@@ -1,0 +1,1 @@
+// Placeholder for frontend/src/components/common/Loader.jsx
