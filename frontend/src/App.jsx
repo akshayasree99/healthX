@@ -6,6 +6,8 @@ import Login from './components/Home/Login';
 import Register from './components/Home/Register/Register';
 import RegisterP from './components/Home/Register/RegisterP';
 import RegisterD from './components/Home/Register/RegisterD';
+import LoginPatient from './components/auth/LoginPatient';
+import Dashboard from './components/patient/Dashboard';
 
 function App() {
 
@@ -18,6 +20,9 @@ function App() {
       <Route path="/register" element={<Register/>}/>
       <Route path="/register/patient" element={<RegisterP/>}/>
       <Route path="/register/doctor" element={<RegisterD/>}/>
+      <Route path="/auth/loginpatient" element={<LoginPatient />} />
+      <Route path="/patient/dashboard/*" element={<Dashboard />} />
+
       </Routes>
     </Router>
     </>

@@ -261,7 +261,7 @@ function Home() {
                 </div>
               </div>
               
-              <button className="mt-8 px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center">
+              <button onClick={() => navigate('/auth/loginPatient')} className="mt-8 px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center">
                 Sign Up as a Patient <ArrowRight className="ml-2 h-5 w-5" />
               </button>
             </div>
