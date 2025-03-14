@@ -8,6 +8,13 @@ import RegisterP from './components/Home/Register/RegisterP';
 import RegisterD from './components/Home/Register/RegisterD';
 import LoginPatient from './components/auth/LoginPatient';
 import Dashboard from './components/patient/Dashboard';
+import BookAppointment from "./components/patient/BookAppointment";
+import MedicationTracker from './components/patient/MedicationTracker';
+import Profile from './components/patient/Profile';
+import Reports from './components/patient/Reports';
+import VideoCall from './components/patient/VideoCall';
+
+
 
 function App() {
 
@@ -22,6 +29,12 @@ function App() {
       <Route path="/register/doctor" element={<RegisterD/>}/>
       <Route path="/auth/loginpatient" element={<LoginPatient />} />
       <Route path="/patient/dashboard/*" element={<Dashboard />} />
+      <Route path="/patient/bookappointment" element={<BookAppointment />} />
+      <Route path="/patient/medicationtracker" element={<MedicationTracker/>} />
+      <Route path="/patient/profile" element={<Profile />} />
+      <Route path="/patient/reports" element={<Reports />} />
+      <Route path="/patient/videocall" element={<VideoCall/>} />
+
 
       </Routes>
     </Router>
