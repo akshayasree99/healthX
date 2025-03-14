@@ -28,6 +28,8 @@ function App() {
       <Route path="/register/patient" element={<RegisterP/>}/>
       <Route path="/register/doctor" element={<RegisterD/>}/>
       <Route path="/auth/loginpatient" element={<LoginPatient />} />
+      <Route path="/home/register/registerp" element={<RegisterP />} />
+      <Route path="/home/register/registerd" element={<RegisterD />} /> 
       <Route path="/patient/dashboard/*" element={<Dashboard />} />
       <Route path="/patient/bookappointment" element={<BookAppointment />} />
       <Route path="/patient/medicationtracker" element={<MedicationTracker/>} />

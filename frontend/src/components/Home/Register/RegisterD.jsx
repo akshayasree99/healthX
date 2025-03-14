@@ -53,8 +53,8 @@ const RegisterD = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-            <div className="bg-white p-8 rounded-lg shadow-lg max-w-4xl w-full">
+        <div className="min-h-screen bg-gradient-to-r from-teal-200 to-blue-300 flex items-center justify-center py-6">
+            <div className="bg-white bg-opacity-80 backdrop-blur-lg shadow-lg p-8 rounded-lg max-w-4xl w-full">
                 <h2 className="text-2xl font-bold mb-6">Doctor Registration Form</h2>
                 <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     
@@ -123,7 +123,7 @@ const RegisterD = () => {
                     <label>Confirm Password</label>
                     <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} className="p-2 border rounded" required />
 
-                    <button type="submit" className="col-span-2 bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Register</button>
+                    <button type="submit" className="col-span-2 bg-teal-500 text-white p-2 rounded-md hover:bg-teal-600 transition-all">Register</button>
                 </form>
             </div>
         </div>

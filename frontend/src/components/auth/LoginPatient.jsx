@@ -28,33 +28,33 @@ const LoginPatient = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-cyan-500 to-blue-700">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-400 to-indigo-600">
       <motion.div 
         initial={{ opacity: 0, y: -50 }} 
         animate={{ opacity: 1, y: 0 }} 
         transition={{ duration: 0.5 }}
         className="w-full max-w-md bg-white shadow-2xl rounded-2xl p-8"
       >
-        <h2 className="text-3xl font-bold text-center text-blue-700 mb-6">Patient Login</h2>
+        <h2 className="text-3xl font-bold text-center text-indigo-700 mb-6">Patient Login</h2>
         <form onSubmit={handleLogin} className="space-y-4">
           <div>
-            <label className="block text-gray-900">Full Name</label>
+            <label className="block text-gray-700">Full Name</label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
           </div>
           
           <div>
-            <label className="block text-gray-900">Gender</label>
+            <label className="block text-gray-700">Gender</label>
             <select
               name="gender"
               value={formData.gender}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
             >
               <option value="">Select Gender</option>
               <option value="Male">Male</option>
@@ -64,35 +64,35 @@ const LoginPatient = () => {
           </div>
           
           <div>
-            <label className="block text-gray-900">Age</label>
+            <label className="block text-gray-700">Age</label>
             <input
               type="number"
               name="age"
               value={formData.age}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
           </div>
           
           <div>
-            <label className="block text-gray-900">Email</label>
+            <label className="block text-gray-700">Email</label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
           </div>
           
           <div>
-            <label className="block text-gray-900">Password</label>
+            <label className="block text-gray-700">Password</label>
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400"
             />
           </div>
           
@@ -100,7 +100,7 @@ const LoginPatient = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             type="submit"
-            className="w-full py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            className="w-full py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
           >
             Login
           </motion.button>
