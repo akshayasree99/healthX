@@ -1,15 +1,14 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
-const Dashboard = () => {
+const DashboardD = () => {
   const navItems = [
-    { route: "/patient/bookappointment", icon: "📅", label: "Book Appointment", color: "from-blue-500 to-blue-700" },
-    { route: "/doctorSearch", icon: "🩺", label: "Doctor Search", color: "from-purple-500 to-purple-700" },
-    { route: "/doctorProfile", icon: "👨‍⚕️", label: "Doctor Profile", color: "from-pink-500 to-pink-700" },
-    { route: "/patient/medicationtracker", icon: "💊", label: "Medication Tracker", color: "from-green-500 to-green-700" },
-    { route: "/patient/profile", icon: "👤", label: "Profile", color: "from-indigo-500 to-indigo-700" },
-    { route: "/patient/reports", icon: "📄", label: "Reports", color: "from-yellow-500 to-yellow-700" },
-    { route: "/patient/videocall", icon: "📹", label: "Video Call", color: "from-red-500 to-red-700" },
+    { route: "/doctor/appointments", icon: "📅", label: "Appointments", color: "from-blue-500 to-blue-700" },
+    { route: "/doctor/patientlist", icon: "👥", label: "Patient List", color: "from-purple-500 to-purple-700" },
+    { route: "/doctor/reportcreation", icon: "📝", label: "Report Creation", color: "from-pink-500 to-pink-700" },
+    { route: "/doctor/handwrittenreportupload", icon: "📜", label: "Handwritten Report Upload", color: "from-green-500 to-green-700" },
+    { route: "/doctor/profile", icon: "👤", label: "Profile", color: "from-indigo-500 to-indigo-700" },
+    { route: "/doctor/videocall", icon: "📹", label: "Video Call", color: "from-red-500 to-red-700" },
   ];
 
   return (
@@ -22,7 +21,7 @@ const Dashboard = () => {
         transition={{ duration: 0.6 }}
         className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-8"
       >
-        Patient Dashboard
+        Doctor Dashboard
       </motion.h1>
 
       {/* Card Grid */}
@@ -70,5 +69,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
-
+export default DashboardD;

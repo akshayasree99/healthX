@@ -43,7 +43,7 @@ const RegisterP = () => {
 
         // Simulating form submission success
         setTimeout(() => {
-            navigate('/patient/dashboard'); // Navigate to patient dashboard
+            navigate('/patient/dashboardp'); // Navigate to patient dashboard
         }, 500);
     };
 

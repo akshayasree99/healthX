@@ -10,7 +10,7 @@ const ChooseRole = () => {
                 <h2 className="text-2xl font-bold mb-6">Register As</h2>
                 <div className="flex flex-col gap-4">
                     <button 
-                        onClick={() => navigate('/register/patient')} 
+                        onClick={() => navigate('/register/patientp')} 
                         className="bg-blue-500 text-white p-3 rounded hover:bg-blue-600"
                     >
                         Register as Patient

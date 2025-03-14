@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterD = () => {
     const [formData, setFormData] = useState({
@@ -31,8 +32,7 @@ const RegisterD = () => {
         confirmPassword: ''
     });
 
-    const [passwordError, setPasswordError] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
+    const navigate = useNavigate(); // Initialize navigate function
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -41,16 +41,14 @@ const RegisterD = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        if (formData.password !== formData.confirmPassword) {
-            setPasswordError('Passwords do not match!');
-            setSuccessMessage('');
-        } else {
-            setPasswordError('');
-            setSuccessMessage('Doctor registration form submitted successfully!');
-            console.log('Form Data:', formData);
-        }
+        console.log('Form Data:', formData);
+
+        // Simulating form submission success
+        setTimeout(() => {
+            navigate('/doctor/dashboardd'); // Navigate to patient dashboard
+        }, 500);
     };
+
 
     return (
         <div className="min-h-screen bg-gradient-to-r from-teal-200 to-blue-300 flex items-center justify-center py-6">
