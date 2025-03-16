@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './App.css'
 import Home from './components/Home/Home';
 import Login from './components/Home/Login';
-import Register from './components/Home/Register/Register';
+import Register from './components/Home/Register.jsx';
 import RegisterP from './components/Home/Register/RegisterP';
 import RegisterD from './components/Home/Register/RegisterD';
 import LoginPatient from './components/auth/LoginPatient';
