@@ -22,7 +22,6 @@ const VideoCall = () => {
         if (!joined) return;
 
         socket.emit("join-room", roomId);
-        console.log("Joined room:", roomId);
 
         socket.on("offer", async ({ offer }) => handleOffer(offer));
         socket.on("answer", async ({ answer }) => peerConnection?.setRemoteDescription(new RTCSessionDescription(answer)));
@@ -53,12 +52,10 @@ const VideoCall = () => {
 
             localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
             pc.ontrack = (event) => {
-                console.log("Receiving remote stream");
                 remoteVideoRef.current.srcObject = event.streams[0];
             };
             pc.onicecandidate = (event) => {
                 if (event.candidate) {
-                    console.log("Sending ICE Candidate:", event.candidate);
                     socket.emit("candidate", { roomId, candidate: event.candidate });
                 }
             };
@@ -82,7 +79,6 @@ const VideoCall = () => {
 
             localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
             pc.ontrack = (event) => {
-                console.log("Receiving remote stream");
                 remoteVideoRef.current.srcObject = event.streams[0];
             };
             pc.onicecandidate = (event) => {
@@ -111,29 +107,45 @@ const VideoCall = () => {
     };
 
     return (
-        <div className="flex flex-col items-center bg-gray-900 min-h-screen text-white p-6">
-            <h2 className="text-2xl font-bold mb-4">Video Call</h2>
+        <div className="flex flex-col items-center bg-[#d7e6f5] min-h-screen text-gray-800 p-8">
+            <h2 className="text-3xl font-bold mb-8 text-[#2a5c99]">Video Call</h2>
             {!joined ? (
-                <div className="flex flex-col items-center space-y-4">
-                    <input type="text" value={roomId} onChange={(e) => setRoomId(e.target.value)} placeholder="Enter Room ID" className="border p-2 rounded-md text-black" />
-                    <button onClick={joinRoom} className="bg-green-500 text-white px-4 py-2 rounded">Join Room</button>
+                <div className="flex flex-col items-center space-y-6 bg-[#fef3c7] p-8 rounded-2xl shadow-lg">
+                    <input
+                        type="text"
+                        value={roomId}
+                        onChange={(e) => setRoomId(e.target.value)}
+                        placeholder="Enter Room ID"
+                        className="border border-gray-300 p-3 w-80 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#fbbf24]"
+                    />
+                    <button onClick={joinRoom} className="bg-[#fbbf24] text-white px-6 py-3 rounded-lg shadow-md hover:bg-[#f59e0b]">
+                        Join Room
+                    </button>
                 </div>
             ) : (
                 <>
-                    <div className="flex space-x-6 mb-4">
-                        <video ref={localVideoRef} autoPlay playsInline className="border rounded-md w-64 h-48 bg-black" />
-                        <video ref={remoteVideoRef} autoPlay playsInline className="border rounded-md w-64 h-48 bg-black" />
+                    <div className="flex justify-center space-x-8 mb-6">
+                        <video ref={localVideoRef} autoPlay playsInline className="border rounded-lg w-[480px] h-[360px] bg-black shadow-lg" />
+                        <video ref={remoteVideoRef} autoPlay playsInline className="border rounded-lg w-[480px] h-[360px] bg-black shadow-lg" />
                     </div>
-                    <div className="flex space-x-4 mb-6">
-                        <button onClick={startCall} className="bg-blue-500 text-white px-4 py-2 rounded flex items-center space-x-2"><FaVideo /> Start Call</button>
-                        <button onClick={endCall} className="bg-red-500 text-white px-4 py-2 rounded flex items-center space-x-2"><FaPhoneSlash /> End Call</button>
-                        <button onClick={() => setVideoOn(!videoOn)} className="bg-gray-500 text-white px-4 py-2 rounded">{videoOn ? <FaVideo /> : "📷"}</button>
-                        <button onClick={() => setIsMuted(!isMuted)} className="bg-green-500 text-white px-4 py-2 rounded">{isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}</button>
+                    <div className="flex space-x-6 mb-6">
+                        <button onClick={startCall} className="bg-[#2a5c99] text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-[#1f4a77]">
+                            <FaVideo /> <span>Start Call</span>
+                        </button>
+                        <button onClick={endCall} className="bg-[#ef476f] text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-[#d43f5e]">
+                            <FaPhoneSlash /> <span>End Call</span>
+                        </button>
+                        <button onClick={() => setVideoOn(!videoOn)} className="bg-[#fbbf24] text-white px-6 py-3 rounded-lg">
+                            {videoOn ? <FaVideo /> : "📷"}
+                        </button>
+                        <button onClick={() => setIsMuted(!isMuted)} className="bg-[#6b7280] text-white px-6 py-3 rounded-lg">
+                            {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
+                        </button>
                     </div>
                     <div className="grid grid-cols-5 gap-4">
                         {[FaRegClock, FaComments, FaFileUpload, FaRecordVinyl, FaBell, FaDesktop, FaRedo, FaGlobe, FaUsers, FaHeadset].map((Icon, index) => (
-                            <motion.div key={index} whileHover={{ scale: 1.1 }} className="flex flex-col items-center bg-gray-800 p-4 rounded-xl shadow-md">
-                                <Icon className="text-4xl text-blue-400 mb-2" />
+                            <motion.div key={index} whileHover={{ scale: 1.1 }} className="flex flex-col items-center bg-[#e0f2fe] p-4 rounded-xl shadow-md">
+                                <Icon className="text-4xl text-[#2a5c99] mb-2" />
                             </motion.div>
                         ))}
                     </div>
