@@ -38,10 +38,9 @@ function App() {
       <Route path="/home/register/registerp" element={<RegisterP />} />
       <Route path="/home/register/registerd" element={<RegisterD />} /> 
       <Route element={<ProtectedRoute />}>
-          {/* Dynamic dashboard route */}
-          <Route path="/dashboardp/:patientId" element={<DashboardP />} />
-        </Route>
-      <Route path="/doctor/dashboardd/*" element={<DashboardD />} />
+          <Route path="/patient/dashboardp" element={<DashboardP />} />
+          <Route path="/patient/dashboardd" element={<DashboardD />} />
+      </Route>
       <Route path="/patient/bookappointment" element={<BookAppointment />} />
       <Route path="/patient/medicationtracker" element={<MedicationTracker/>} />
       <Route path="/patient/profile" element={<Profile />} />

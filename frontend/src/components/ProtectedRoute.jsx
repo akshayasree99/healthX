@@ -1,34 +1,26 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { supabase } from "../supabase.js"; // Ensure correct import path
+import { supabase } from "../supabase.js"; 
 
 export default function ProtectedRoute() {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
-  const [patientId, setPatientId] = useState(null);
 
   useEffect(() => {
-    let isMounted = true;
-
     const checkAuth = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (user && isMounted) {
-        setIsAuthenticated(true);
-        setPatientId(user.id); // Assuming patient ID is stored in `user.id`
-      } else {
-        setIsAuthenticated(false);
-      }
+      setIsAuthenticated(!!user);
     };
-
+  
     checkAuth();
-
-    return () => (isMounted = false); // Cleanup
+    
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session?.user);
+    });
+  
+    return () => listener.subscription.unsubscribe();
   }, []);
+  
 
   if (isAuthenticated === null) return <p>Loading...</p>;
-
-  return isAuthenticated ? (
-    patientId ? <Navigate to={`/dashboard/${patientId}`} replace /> : <Outlet />
-  ) : (
-    <Navigate to="/login" replace />
-  );
+  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
 }

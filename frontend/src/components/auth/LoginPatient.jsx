@@ -16,16 +16,42 @@ const LoginPatient = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    console.log("Logging in patient:", formData);
-    
-    if (formData.email && formData.password) {
-      navigate('/patient/dashboard');
-    } else {
-      alert("Please enter valid credentials!");
+    setErrorMsg("");
+  
+    // Step 1: Authenticate User
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
+  
+    if (authError || !authData.user) {
+      setErrorMsg("Invalid email or password");
+      return;
+    }
+  
+    // Step 2: Fetch user_type from Register table
+    const userId = authData.user.id;
+    const { data: userData, error: userError } = await supabase
+      .from("register") // Ensure the table name is correct
+      .select("user_type")
+      .eq("id", userId)
+      .single(); 
+  
+    if (userError || !userData) {
+      setErrorMsg("Failed to fetch user type");
+      return;
+    }
+  
+    // Step 3: Redirect based on user type
+    if (userData.user_type === "patient") {
+      navigate("/patient/dashboardp", { replace: true });
+    } else if (userData.user_type === "doctor") {
+      navigate("/patient/dashboardd", { replace: true });
     }
   };
+  
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-blue-400 to-indigo-600">
