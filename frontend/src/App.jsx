@@ -20,7 +20,7 @@ import PatientList from './components/doctor/PatientList';
 import ProfileD from './components/doctor/ProfileD';
 import ReportCreation from './components/doctor/ReportCreation';
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
-
+import Chatbot from './components/chatbot/Chatbot.jsx'; // Import Chatbot
 
 
 function App() {
@@ -54,6 +54,8 @@ function App() {
       <Route path="/doctor/reportcreation" element={<ReportCreation />} />
 
       </Routes>
+      {/* Global Chatbot Button */}
+      <Chatbot />
     </Router>
     </>
   )
