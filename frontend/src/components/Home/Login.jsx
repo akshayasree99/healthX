@@ -15,38 +15,53 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMsg('');
-
+  
     // Step 1: Authenticate User
     const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
       email: formData.email,
       password: formData.password,
     });
-
+  
     if (authError || !authData.user) {
       setErrorMsg('Invalid email or password');
       return;
     }
-
-    // Step 2: Fetch user_type from Register table
+  
     const userId = authData.user.id;
+  
+    // Step 2: Fetch user type
     const { data: userData, error: userError } = await supabase
-      .from('register') // Your table name
+      .from('register')
       .select('user_type')
       .eq('id', userId)
-      .single(); // Expecting a single user record
-
+      .single();
+  
     if (userError || !userData) {
       setErrorMsg('Failed to fetch user type');
       return;
     }
-
-    // Step 3: Check user type
+  
+    // Step 3: Redirect Based on User Type
     if (userData.user_type === 'patient') {
-      navigate('/patient/dashboardp'); // Navigate only if user is a patient
-    } else if(userData.user_type === 'doctor'){
-      navigate('/patient/dashboardd'); 
+      // Step 4: Fetch Patient ID for Unique Dashboard
+      const { data: patientData, error: patientError } = await supabase
+        .from('patient')
+        .select('patient_id')
+        .eq('id', userId)
+        .single();
+  
+      if (patientError || !patientData) {
+        setErrorMsg('Patient record not found');
+        return;
+      }
+  
+      // Redirect to patient-specific dashboard with ID
+      navigate(`/patient/dashboard/${patientData.patient_id}`);
+    } else if (userData.user_type === 'doctor') {
+      navigate('/doctor/dashboard');
     }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

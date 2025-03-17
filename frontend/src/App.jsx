@@ -32,20 +32,21 @@ function App() {
       <Route path="/" index element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register/>}/>
-      <Route path="/register/patient" element={<RegisterP/>}/>
       <Route path="/register/doctor" element={<RegisterD/>}/>
-      <Route path="/auth/loginpatient" element={<LoginPatient />} />
-      <Route path="/home/register/registerp" element={<RegisterP />} />
-      <Route path="/home/register/registerd" element={<RegisterD />} /> 
+      {/* <Route path="/auth/loginpatient" element={<LoginPatient />} /> */} 
       <Route element={<ProtectedRoute />}>
-          <Route path="/patient/dashboardp" element={<DashboardP />} />
+          <Route path="/patient/dashboard/:id" element={<DashboardP />} />
           <Route path="/patient/dashboardd" element={<DashboardD />} />
       </Route>
-      <Route path="/patient/bookappointment" element={<BookAppointment />} />
-      <Route path="/patient/medicationtracker" element={<MedicationTracker/>} />
-      <Route path="/patient/profile" element={<Profile />} />
-      <Route path="/patient/reports" element={<Reports />} />
-      <Route path="/patient/videocall" element={<VideoCall/>} />
+
+      <Route path="/register/patient/:id" element={<RegisterP/>}/>
+      <Route path="/patient/bookappointment/:id" element={<BookAppointment />} />
+      <Route path="/patient/medicationtracker/:id" element={<MedicationTracker/>} />
+      <Route path="/patient/profile/:id" element={<Profile />} />
+      <Route path="/patient/reports/:id" element={<Reports />} />
+      <Route path="/patient/videocall/:id" element={<VideoCall/>} />
+      {/* need to add a back option here */}
+
       <Route path="/doctor/appointments" element={<Appointments />} />
       <Route path="/doctor/handwrittenreportupload" element={<HandwrittenReportUpload />} />
       <Route path="/doctor/patientlist" element={<PatientList />} />

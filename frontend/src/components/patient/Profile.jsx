@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaUserEdit, FaMoon, FaSun, FaFileMedical, FaCalendarAlt, FaPills, FaUtensils } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { Link, useParams } from "react-router-dom";
 
 const Profile = () => {
   const [darkMode, setDarkMode] = useState(false);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const user = {
     name: "John Doe",
@@ -15,6 +18,11 @@ const Profile = () => {
     appointments: ["Dr. Smith - 12th March", "Dr. Wilson - 20th March"],
     reports: ["Blood Test - Jan 2024", "MRI Scan - Feb 2024"],
     dietPlan: ["High Protein Breakfast", "Low Sugar Diet"],
+  };
+
+  const { id: patientId } = useParams();
+  const handleEditProfile = () => {
+    navigate(`/register/patient/${patientId}`); // Navigate to the specified URL
   };
 
   return (
@@ -48,7 +56,7 @@ const Profile = () => {
             <p className="text-gray-600">📧 {user.email}</p>
             <p className="text-gray-600">📞 {user.phone}</p>
           </div>
-          <button className="mt-4 sm:mt-0 px-4 py-2 bg-blue-500 text-white rounded-lg flex items-center gap-2 shadow-lg hover:bg-blue-600 transition-all">
+          <button onClick={handleEditProfile} className="mt-4 sm:mt-0 px-4 py-2 bg-blue-500 text-white rounded-lg flex items-center gap-2 shadow-lg hover:bg-blue-600 transition-all">
             <FaUserEdit /> Edit Profile
           </button>
         </div>

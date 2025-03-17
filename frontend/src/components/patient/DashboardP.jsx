@@ -1,15 +1,17 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const DashboardP = () => {
+  const { id: patientId } = useParams(); // Get patient ID from URL
+
   const navItems = [
-    { route: "/patient/bookappointment", icon: "📅", label: "Book Appointment", color: "from-blue-500 to-blue-700" },
-    { route: "/doctorSearch", icon: "🩺", label: "Doctor Search", color: "from-purple-500 to-purple-700" },
-    { route: "/doctorProfile", icon: "👨‍⚕️", label: "Doctor Profile", color: "from-pink-500 to-pink-700" },
-    { route: "/patient/medicationtracker", icon: "💊", label: "Medication Tracker", color: "from-green-500 to-green-700" },
-    { route: "/patient/profile", icon: "👤", label: "Profile", color: "from-indigo-500 to-indigo-700" },
-    { route: "/patient/reports", icon: "📄", label: "Reports", color: "from-yellow-500 to-yellow-700" },
-    { route: "/patient/videocall", icon: "📹", label: "Video Call", color: "from-red-500 to-red-700" },
+    { route: `/patient/bookappointment/${patientId}`, icon: "📅", label: "Book Appointment", color: "from-blue-500 to-blue-700" },
+    { route: `/doctorSearch/${patientId}`, icon: "🩺", label: "Doctor Search", color: "from-purple-500 to-purple-700" },
+    { route: `/doctorProfile/${patientId}`, icon: "👨‍⚕️", label: "Doctor Profile", color: "from-pink-500 to-pink-700" },
+    { route: `/patient/medicationtracker/${patientId}`, icon: "💊", label: "Medication Tracker", color: "from-green-500 to-green-700" },
+    { route: `/patient/profile/${patientId}`, icon: "👤", label: "Profile", color: "from-indigo-500 to-indigo-700" },
+    { route: `/patient/reports/${patientId}`, icon: "📄", label: "Reports", color: "from-yellow-500 to-yellow-700" },
+    { route: `/patient/videocall/${patientId}`, icon: "📹", label: "Video Call", color: "from-red-500 to-red-700" },
   ];
 
   return (
@@ -71,4 +73,3 @@ const DashboardP = () => {
 };
 
 export default DashboardP;
-
