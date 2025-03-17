@@ -19,6 +19,7 @@ import HandwrittenReportUpload from './components/doctor/HandwrittenReportUpload
 import PatientList from './components/doctor/PatientList';
 import ProfileD from './components/doctor/ProfileD';
 import ReportCreation from './components/doctor/ReportCreation';
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 
 
@@ -36,7 +37,10 @@ function App() {
       <Route path="/auth/loginpatient" element={<LoginPatient />} />
       <Route path="/home/register/registerp" element={<RegisterP />} />
       <Route path="/home/register/registerd" element={<RegisterD />} /> 
-      <Route path="/patient/dashboardp/*" element={<DashboardP />} />
+      <Route element={<ProtectedRoute />}>
+          {/* Dynamic dashboard route */}
+          <Route path="/dashboardp/:patientId" element={<DashboardP />} />
+        </Route>
       <Route path="/doctor/dashboardd/*" element={<DashboardD />} />
       <Route path="/patient/bookappointment" element={<BookAppointment />} />
       <Route path="/patient/medicationtracker" element={<MedicationTracker/>} />

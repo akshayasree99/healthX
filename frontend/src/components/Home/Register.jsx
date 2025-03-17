@@ -15,7 +15,7 @@ export default function RegisterPage() {
     password: "",
     confirmPassword: "",
     dob: "",
-    specialty: "",
+    licenseNumber: "",
   });
 
   const [error, setError] = useState(null);
@@ -46,7 +46,7 @@ export default function RegisterPage() {
     try {
       // ✅ 1. Check if user already exists
       const { data: existingUser } = await supabase
-        .from("Register")
+        .from("register")
         .select("email")
         .eq("email", formData.email)
         .single();
@@ -72,7 +72,7 @@ export default function RegisterPage() {
       if (!userId) throw new Error("User ID not found. Please try again.");
 
       // ✅ 3. Insert into Register table
-      const { error: registerError } = await supabase.from("Register").insert([
+      const { error: registerError } = await supabase.from("register").insert([
         {
           id: userId,
           email: formData.email,
@@ -84,7 +84,7 @@ export default function RegisterPage() {
 
       // ✅ 4. Insert into Patient or Doctor table
       if (userType === "patient") {
-        const { error: patientError } = await supabase.from("Patient").insert([
+        const { error: patientError } = await supabase.from("patient").insert([
           {
             id: userId,
             email: formData.email,
@@ -101,11 +101,12 @@ export default function RegisterPage() {
             email: formData.email,
             first_name: formData.firstName,
             last_name: formData.lastName,
-            specialty: formData.specialty,
+            license_number: formData.licenseNumber, // Updated Field
           },
         ]);
         if (doctorError) throw doctorError;
       }
+      
 
       // ✅ 5. Inform user & redirect
       alert("Check your email for a verification link before logging in.");
@@ -179,10 +180,18 @@ export default function RegisterPage() {
 
           {userType === "doctor" && (
             <div>
-              <label className="text-blue-800">Specialty</label>
-              <input type="text" name="specialty" value={formData.specialty} onChange={handleChange} required className="w-full border p-2 rounded focus:border-blue-400" />
+              <label className="text-blue-800">Doctor's License Number</label>
+              <input
+                type="text"
+                name="licenseNumber"
+                value={formData.licenseNumber}
+                onChange={handleChange}
+                required
+                className="w-full border p-2 rounded focus:border-blue-400"
+              />
             </div>
           )}
+
 
           <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700" disabled={loading}>
             {loading ? "Registering..." : "Register"}

@@ -1,14 +1,52 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Register from './Register/RegisterP';
-
+import { supabase } from '../../supabase.js'; // Ensure you have configured Supabase client
 
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(true)
-  const navigate=useNavigate();
-  const handleRegister=()=>{
+  const [isLogin, setIsLogin] = useState(true);
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [errorMsg, setErrorMsg] = useState('');
+  const navigate = useNavigate();
+
+  const handleRegister = () => {
     navigate('/register');
-  }
+  };
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setErrorMsg('');
+
+    // Step 1: Authenticate User
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
+
+    if (authError || !authData.user) {
+      setErrorMsg('Invalid email or password');
+      return;
+    }
+
+    // Step 2: Fetch user_type from Register table
+    const userId = authData.user.id;
+    const { data: userData, error: userError } = await supabase
+      .from('register') // Your table name
+      .select('user_type')
+      .eq('id', userId)
+      .single(); // Expecting a single user record
+
+    if (userError || !userData) {
+      setErrorMsg('Failed to fetch user type');
+      return;
+    }
+
+    // Step 3: Check user type
+    if (userData.user_type === 'patient') {
+      navigate('/patient/dashboardp'); // Navigate only if user is a patient
+    } else if(userData.user_type === 'doctor'){
+      navigate('/patient/dashboardd'); 
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -16,14 +54,16 @@ export default function Login() {
         <h2 className="text-2xl font-bold mb-6 text-center">
           {isLogin ? 'Login' : 'Register'}
         </h2>
-        <form>
-          
+        {errorMsg && <p className="text-red-500 text-center mb-4">{errorMsg}</p>}
+        <form onSubmit={handleLogin}>
           <div className="mb-4">
             <label className="block mb-2 text-sm font-medium">Email</label>
             <input
               type="email"
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your email"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             />
           </div>
           <div className="mb-6">
@@ -32,6 +72,8 @@ export default function Login() {
               type="password"
               className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your password"
+              value={formData.password}
+              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
             />
           </div>
           <button
@@ -45,9 +87,9 @@ export default function Login() {
           {"Don't have an account?"}
           <button
             className="text-blue-500 ml-2 hover:underline"
-            onClick={() => setIsLogin(!isLogin)}
+            onClick={handleRegister}
           >
-            <span onClick={handleRegister('/register')}>Register</span>
+            Register
           </button>
         </p>
       </div>
