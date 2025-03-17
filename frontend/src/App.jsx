@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css'
 import Home from './components/Home/Home';
 import Login from './components/Home/Login';
@@ -20,42 +20,42 @@ import PatientList from './components/doctor/PatientList';
 import ProfileD from './components/doctor/ProfileD';
 import ReportCreation from './components/doctor/ReportCreation';
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
-
-
+import Chatbot from './components/chatbot/Chatbot.jsx'; // Import Chatbot
 
 function App() {
-
   return (
     <>
-    <Router>
-      <Routes>
-      <Route path="/" index element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register/>}/>
-      <Route path="/register/patient" element={<RegisterP/>}/>
-      <Route path="/register/doctor" element={<RegisterD/>}/>
-      <Route path="/auth/loginpatient" element={<LoginPatient />} />
-      <Route path="/home/register/registerp" element={<RegisterP />} />
-      <Route path="/home/register/registerd" element={<RegisterD />} /> 
-      <Route element={<ProtectedRoute />}>
-          <Route path="/patient/dashboardp" element={<DashboardP />} />
-          <Route path="/patient/dashboardd" element={<DashboardD />} />
-      </Route>
-      <Route path="/patient/bookappointment" element={<BookAppointment />} />
-      <Route path="/patient/medicationtracker" element={<MedicationTracker/>} />
-      <Route path="/patient/profile" element={<Profile />} />
-      <Route path="/patient/reports" element={<Reports />} />
-      <Route path="/patient/videocall" element={<VideoCall/>} />
-      <Route path="/doctor/appointments" element={<Appointments />} />
-      <Route path="/doctor/handwrittenreportupload" element={<HandwrittenReportUpload />} />
-      <Route path="/doctor/patientlist" element={<PatientList />} />
-      <Route path="/doctor/profileD" element={<ProfileD />} />
-      <Route path="/doctor/reportcreation" element={<ReportCreation />} />
+      <Router>
+        <Routes>
+          <Route path="/" index element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/register/patient" element={<RegisterP/>}/>
+          <Route path="/register/doctor" element={<RegisterD/>}/>
+          <Route path="/auth/loginpatient" element={<LoginPatient />} />
+          <Route path="/home/register/registerp" element={<RegisterP />} />
+          <Route path="/home/register/registerd" element={<RegisterD />} /> 
+          <Route element={<ProtectedRoute />}>
+              <Route path="/patient/dashboardp" element={<DashboardP />} />
+              <Route path="/patient/dashboardd" element={<DashboardD />} />
+          </Route>
+          <Route path="/patient/bookappointment" element={<BookAppointment />} />
+          <Route path="/patient/medicationtracker" element={<MedicationTracker/>} />
+          <Route path="/patient/profile" element={<Profile />} />
+          <Route path="/patient/reports" element={<Reports />} />
+          <Route path="/patient/videocall" element={<VideoCall/>} />
+          <Route path="/doctor/appointments" element={<Appointments />} />
+          <Route path="/doctor/handwrittenreportupload" element={<HandwrittenReportUpload />} />
+          <Route path="/doctor/patientlist" element={<PatientList />} />
+          <Route path="/doctor/profileD" element={<ProfileD />} />
+          <Route path="/doctor/reportcreation" element={<ReportCreation />} />
+        </Routes>
 
-      </Routes>
-    </Router>
+        {/* Global Chatbot Button */}
+        <Chatbot />
+      </Router>
     </>
   )
 }
 
-export default App
+export default App;
