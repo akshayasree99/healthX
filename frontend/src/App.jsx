@@ -13,7 +13,6 @@ import BookAppointment from "./components/patient/BookAppointment";
 import MedicationTracker from './components/patient/MedicationTracker';
 import Profile from './components/patient/Profile';
 import Reports from './components/patient/Reports';
-import VideoCall from './components/patient/VideoCall';
 import Appointments from './components/doctor/Appointments';  
 import HandwrittenReportUpload from './components/doctor/HandwrittenReportUpload';
 import PatientList from './components/doctor/PatientList';
@@ -44,7 +43,7 @@ function App() {
       <Route path="/patient/medicationtracker/:id" element={<MedicationTracker/>} />
       <Route path="/patient/profile/:id" element={<Profile />} />
       <Route path="/patient/reports/:id" element={<Reports />} />
-      <Route path="/patient/videocall/:id" element={<VideoCall/>} />
+     
       {/* need to add a back option here */}
 
       <Route path="/doctor/appointments/:id" element={<Appointments />} />
