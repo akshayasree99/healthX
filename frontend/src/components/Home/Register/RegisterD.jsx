@@ -1,128 +1,369 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { supabase } from '../../../supabase.js'; // Import Supabase client
+import { ArrowLeft } from 'lucide-react';
 
 const RegisterD = () => {
+    const { id: doctorId } = useParams();  // Get doctor_id from URL
+    const navigate = useNavigate();
+
     const [formData, setFormData] = useState({
-        fullName: '',
+        full_name: '',
         dob: '',
         gender: '',
-        phone: '',
+        phone_number: '',
         email: '',
         address: '',
         nationality: '',
-        languages: '',
-        licenseNumber: '',
-        licenseAuthority: '',
-        licenseExpiry: '',
+        language: '',
+        license_number: '',
+        license_authority: '',
+        license_expiry: '',
         specialization: '',
-        subspecialties: '',
         experience: '',
-        clinicAffiliation: '',
-        practiceAddress: '',
         fees: '',
-        availableHours: '',
-        medicalSchool: '',
-        graduationYear: '',
-        postgraduateDegrees: '',
-        certifications: '',
-        fellowships: '',
-        researchLinks: '',
-        username: '',
-        password: '',
-        confirmPassword: ''
+        available_hours: '',
+        medical_school: '',
+        graduation_year: ''
     });
 
-    const navigate = useNavigate(); // Initialize navigate function
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
+    // Fetch doctor data when the component mounts
+    useEffect(() => {
+        const fetchDoctor = async () => {
+            const { data, error } = await supabase
+                .from('doctor')
+                .select('*')
+                .eq('doctor_id', doctorId)
+                .single(); // Get a single row
+
+            if (error) {
+                console.error('Error fetching doctor:', error);
+                setError('Failed to fetch doctor data.');
+            } else {
+                setFormData(data); // Set fetched data in the form
+            }
+        };
+
+        fetchDoctor();
+    }, [doctorId]);
+
+    // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    // Update doctor data in Supabase
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form Data:', formData);
+        setLoading(true);
+        setError(null);
 
-        // Simulating form submission success
-        setTimeout(() => {
-            navigate('/doctor/dashboardd'); // Navigate to patient dashboard
-        }, 500);
+        try {
+            // Filter out empty fields to avoid overwriting existing data with empty values
+            const updatedData = Object.fromEntries(
+                Object.entries(formData).filter(([_, value]) => value !== '')
+            );
+
+            const { error } = await supabase
+                .from('doctor')
+                .update(updatedData)
+                .eq('doctor_id', doctorId); // Update where doctor_id matches
+
+            if (error) {
+                throw error;
+            }
+
+            alert('Doctor details updated successfully!');
+            navigate(`/doctor/profileD/${doctorId}`); // Redirect after update
+        } catch (error) {
+            console.error('Error updating doctor:', error);
+            setError('Failed to update doctor details.');
+        } finally {
+            setLoading(false);
+        }
     };
 
+    const handleBack = () => {
+        navigate(`/doctor/profileD/${doctorId}`);
+    };
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-teal-200 to-blue-300 flex items-center justify-center py-6">
-            <div className="bg-white bg-opacity-80 backdrop-blur-lg shadow-lg p-8 rounded-lg max-w-4xl w-full">
-                <h2 className="text-2xl font-bold mb-6">Doctor Registration Form</h2>
-                <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-indigo-100 py-8 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+                <button
+                    onClick={handleBack}
+                    className="mb-6 flex items-center text-indigo-600 hover:text-indigo-700 transition-colors"
+                >
+                    <ArrowLeft className="w-5 h-5 mr-2" />
+                    Back to Profile
+                </button>
+                
+                <div className="bg-white shadow-xl rounded-2xl p-8">
+                    <h2 className="text-3xl font-bold text-indigo-700 mb-8 text-center">Doctor Registration</h2>
                     
-                    <h3 className="col-span-2 text-lg font-semibold">Personal Information</h3>
-                    <label>Full Name</label>
-                    <input type="text" name="fullName" placeholder="Full Name (as per official ID)" onChange={handleChange} className="p-2 border rounded" required />
-                    <label>Date of Birth</label>
-                    <input type="date" name="dob" onChange={handleChange} className="p-2 border rounded" required />
-                    <label>Gender</label>
-                    <select name="gender" onChange={handleChange} className="p-2 border rounded" required>
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                    </select>
-                    <label>Phone Number</label>
-                    <input type="tel" name="phone" placeholder="Phone Number (with country code)" onChange={handleChange} className="p-2 border rounded" required />
-                    <label>Email Address</label>
-                    <input type="email" name="email" placeholder="Email Address" onChange={handleChange} className="p-2 border rounded" required />
-                    <label>Residential Address</label>
-                    <input type="text" name="address" placeholder="Residential Address" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Nationality</label>
-                    <input type="text" name="nationality" placeholder="Nationality" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Languages Spoken</label>
-                    <input type="text" name="languages" placeholder="Languages Spoken (comma-separated)" onChange={handleChange} className="p-2 border rounded" />
+                    {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
-                    <h3 className="col-span-2 text-lg font-semibold">Professional Details</h3>
-                    <label>Medical License Number</label>
-                    <input type="text" name="licenseNumber" placeholder="Medical License Number (as issued by the authority)" onChange={handleChange} className="p-2 border rounded" required />
-                    <label>License Issuing Authority</label>
-                    <input type="text" name="licenseAuthority" placeholder="License Issuing Authority" onChange={handleChange} className="p-2 border rounded" required />
-                    <label>License Expiry Date</label>
-                    <input type="date" name="licenseExpiry" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Primary Specialization</label>
-                    <input type="text" name="specialization" placeholder="Primary Specialization" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Subspecialties</label>
-                    <input type="text" name="subspecialties" placeholder="Subspecialties (if any)" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Years of Experience</label>
-                    <input type="text" name="experience" placeholder="Years of Experience" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Clinic/Hospital Affiliation</label>
-                    <input type="text" name="clinicAffiliation" placeholder="Clinic/Hospital Affiliation (if any)" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Practice/Clinic Address</label>
-                    <input type="text" name="practiceAddress" placeholder="Practice/Clinic Address" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Consultation Fees</label>
-                    <input type="text" name="fees" placeholder="Consultation Fees (in local currency)" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Available Hours</label>
-                    <input type="text" name="availableHours" placeholder="Available Hours (e.g., 9 AM - 5 PM)" onChange={handleChange} className="p-2 border rounded" />
+                    <form onSubmit={handleSubmit} className="space-y-8">
+                        {/* Personal Information Section */}
+                        <div className="space-y-6">
+                            <h3 className="text-xl font-semibold text-indigo-600 border-b border-indigo-100 pb-2">
+                                Personal Information
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label htmlFor="full_name" className="block text-sm font-medium text-gray-700">Full Name</label>
+                                    <input
+                                        type="text"
+                                        id="full_name"
+                                        name="full_name"
+                                        value={formData.full_name}
+                                        placeholder="Full Name (as per official ID)"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+                                
+                                <div className="space-y-2">
+                                    <label htmlFor="dob" className="block text-sm font-medium text-gray-700">Date of Birth</label>
+                                    <input
+                                        type="date"
+                                        id="dob"
+                                        name="dob"
+                                        value={formData.dob}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+                                
+                                <div className="space-y-2">
+                                    <label htmlFor="gender" className="block text-sm font-medium text-gray-700">Gender</label>
+                                    <select
+                                        id="gender"
+                                        name="gender"
+                                        value={formData.gender}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    >
+                                        <option value="">Select Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
 
-                    <h3 className="col-span-2 text-lg font-semibold">Education & Certifications</h3>
-                    <label>Medical School</label>
-                    <input type="text" name="medicalSchool" placeholder="Medical School" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Graduation Year</label>
-                    <input type="text" name="graduationYear" placeholder="Graduation Year" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Postgraduate Degrees</label>
-                    <input type="text" name="postgraduateDegrees" placeholder="Postgraduate Degrees" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Certifications</label>
-                    <input type="text" name="certifications" placeholder="Certifications" onChange={handleChange} className="p-2 border rounded" />
-                    <label>Fellowships/Residencies</label>
-                    <input type="text" name="fellowships" placeholder="Fellowships/Residencies" onChange={handleChange} className="p-2 border rounded" />
+                                <div className="space-y-2">
+                                    <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700">Phone Number</label>
+                                    <input
+                                        type="tel"
+                                        id="phone_number"
+                                        name="phone_number"
+                                        value={formData.phone_number}
+                                        placeholder="Enter phone number"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
 
-                    <h3 className="col-span-2 text-lg font-semibold">Account & Security</h3>
-                    <label>Username</label>
-                    <input type="text" name="username" placeholder="Choose a Username" onChange={handleChange} className="p-2 border rounded" required />
-                    <label>Password</label>
-                    <input type="password" name="password" placeholder="Password" onChange={handleChange} className="p-2 border rounded" required />
-                    <label>Confirm Password</label>
-                    <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} className="p-2 border rounded" required />
+                                <div className="space-y-2">
+                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        value={formData.email}
+                                        placeholder="Enter email address"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
 
-                    <button type="submit" className="col-span-2 bg-teal-500 text-white p-2 rounded-md hover:bg-teal-600 transition-all">Register</button>
-                </form>
+                                <div className="space-y-2">
+                                    <label htmlFor="address" className="block text-sm font-medium text-gray-700">Address</label>
+                                    <textarea
+                                        id="address"
+                                        name="address"
+                                        value={formData.address}
+                                        placeholder="Enter your address"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label htmlFor="nationality" className="block text-sm font-medium text-gray-700">Nationality</label>
+                                    <input
+                                        type="text"
+                                        id="nationality"
+                                        name="nationality"
+                                        value={formData.nationality}
+                                        placeholder="Enter nationality"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label htmlFor="language" className="block text-sm font-medium text-gray-700">Languages Spoken</label>
+                                    <input
+                                        type="text"
+                                        id="language"
+                                        name="language"
+                                        value={formData.language}
+                                        placeholder="Enter languages (comma separated)"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Professional Details Section */}
+                        <div className="space-y-6">
+                            <h3 className="text-xl font-semibold text-indigo-600 border-b border-indigo-100 pb-2">
+                                Professional Details
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label htmlFor="license_number" className="block text-sm font-medium text-gray-700">License Number</label>
+                                    <input
+                                        type="text"
+                                        id="license_number"
+                                        name="license_number"
+                                        value={formData.license_number}
+                                        placeholder="Enter medical license number"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label htmlFor="license_authority" className="block text-sm font-medium text-gray-700">License Authority</label>
+                                    <input
+                                        type="text"
+                                        id="license_authority"
+                                        name="license_authority"
+                                        value={formData.license_authority}
+                                        placeholder="Enter licensing authority"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label htmlFor="license_expiry" className="block text-sm font-medium text-gray-700">License Expiry Date</label>
+                                    <input
+                                        type="date"
+                                        id="license_expiry"
+                                        name="license_expiry"
+                                        value={formData.license_expiry}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label htmlFor="specialization" className="block text-sm font-medium text-gray-700">Specialization</label>
+                                    <input
+                                        type="text"
+                                        id="specialization"
+                                        name="specialization"
+                                        value={formData.specialization}
+                                        placeholder="Enter your specialization"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label htmlFor="experience" className="block text-sm font-medium text-gray-700">Years of Experience</label>
+                                    <input
+                                        type="number"
+                                        id="experience"
+                                        name="experience"
+                                        value={formData.experience}
+                                        placeholder="Enter years of experience"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label htmlFor="fees" className="block text-sm font-medium text-gray-700">Consultation Fees</label>
+                                    <input
+                                        type="number"
+                                        id="fees"
+                                        name="fees"
+                                        value={formData.fees}
+                                        placeholder="Enter consultation fees"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label htmlFor="available_hours" className="block text-sm font-medium text-gray-700">Available Hours</label>
+                                    <input
+                                        type="text"
+                                        id="available_hours"
+                                        name="available_hours"
+                                        value={formData.available_hours}
+                                        placeholder="Enter available hours"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Education & Certifications Section */}
+                        <div className="space-y-6">
+                            <h3 className="text-xl font-semibold text-indigo-600 border-b border-indigo-100 pb-2">
+                                Education & Certifications
+                            </h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="space-y-2">
+                                    <label htmlFor="medical_school" className="block text-sm font-medium text-gray-700">Medical School</label>
+                                    <input
+                                        type="text"
+                                        id="medical_school"
+                                        name="medical_school"
+                                        value={formData.medical_school}
+                                        placeholder="Enter medical school name"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label htmlFor="graduation_year" className="block text-sm font-medium text-gray-700">Graduation Year</label>
+                                    <input
+                                        type="number"
+                                        id="graduation_year"
+                                        name="graduation_year"
+                                        value={formData.graduation_year}
+                                        placeholder="Enter graduation year"
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex justify-center pt-6">
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors"
+                            >
+                                {loading ? 'Updating...' : 'Complete Registration'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );

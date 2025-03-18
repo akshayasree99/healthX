@@ -119,7 +119,7 @@ export default function PatientProfile() {
       console.log("Profile updated successfully!");
       console.log(patientId);
   
-      // navigate(`/patient/dashboard/${patientId}`);
+      navigate(`/patient/profile/${patientId}`);
   
     } catch (err) {
       console.error("Error saving patient profile:", err.message);

@@ -32,7 +32,7 @@ function App() {
       <Route path="/" index element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register/>}/>
-      <Route path="/register/doctor" element={<RegisterD/>}/>
+      <Route path="/register/doctor/:id" element={<RegisterD/>}/>
       {/* <Route path="/auth/loginpatient" element={<LoginPatient />} /> */} 
       <Route element={<ProtectedRoute />}>
           <Route path="/patient/dashboard/:id" element={<DashboardP />} />
@@ -47,11 +47,11 @@ function App() {
       <Route path="/patient/videocall/:id" element={<VideoCall/>} />
       {/* need to add a back option here */}
 
-      <Route path="/doctor/appointments" element={<Appointments />} />
-      <Route path="/doctor/handwrittenreportupload" element={<HandwrittenReportUpload />} />
-      <Route path="/doctor/patientlist" element={<PatientList />} />
-      <Route path="/doctor/profileD" element={<ProfileD />} />
-      <Route path="/doctor/reportcreation" element={<ReportCreation />} />
+      <Route path="/doctor/appointments/:id" element={<Appointments />} />
+      <Route path="/doctor/handwrittenreportupload/:id" element={<HandwrittenReportUpload />} />
+      <Route path="/doctor/patientlist/:id" element={<PatientList />} />
+      <Route path="/doctor/profileD/:id" element={<ProfileD />} />
+      <Route path="/doctor/reportcreation/:id" element={<ReportCreation />} />
 
       </Routes>
       {/* Global Chatbot Button */}
