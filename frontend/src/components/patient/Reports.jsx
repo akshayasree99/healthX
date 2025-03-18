@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { FaFileMedical, FaUpload, FaDownload } from "react-icons/fa";
+import {supabase} from "../../supabase"
 
 const Reports = () => {
     const [reports, setReports] = useState([
