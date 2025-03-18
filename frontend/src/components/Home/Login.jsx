@@ -58,7 +58,17 @@ export default function Login() {
       // Redirect to patient-specific dashboard with ID
       navigate(`/patient/dashboard/${patientData.patient_id}`);
     } else if (userData.user_type === 'doctor') {
-      navigate('/doctor/dashboard');
+      const { data: doctorData, error: doctorError } = await supabase
+        .from('doctor')
+        .select('doctor_id')
+        .eq('id', userId)
+        .single();
+  
+      if (doctorError || !doctorData) {
+        setErrorMsg('Patient record not found');
+        return;
+      }
+      navigate(`/patient/dashboardd/${doctorData.doctor_id}`);
     }
   };
   

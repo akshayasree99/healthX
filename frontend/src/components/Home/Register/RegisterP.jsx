@@ -1,9 +1,10 @@
-import { supabase } from "../../../supabase.js";
+import { supabase } from "../../../supabase.js"; 
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"; // Replacing useRouter()
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function PatientProfile() {
-  const {id: patientId } = useParams(); // Get patientId from the URL
+  const { id: patientId } = useParams(); 
+  const navigate = useNavigate(); // Initialize navigate function
 
   // State variables
   const [firstName, setFirstName] = useState("");
@@ -37,82 +38,94 @@ export default function PatientProfile() {
 
   const fetchPatientData = async () => {
     const { data, error } = await supabase
-      .from("patients")
+      .from("patient")
       .select("*")
       .eq("id", patientId)
       .single();
 
     if (error) {
-      console.error("Error fetching patient data:", error);
-    } else {
-      setFirstName(data.first_name || "");
-      setLastName(data.last_name || "");
-      setEmail(data.email || "");
-      setDateOfBirth(data.dob || "");
-      setSex(data.sex || "");
-      setPhone(data.phone_number || "");
-      setAddress(data.address || "");
-      setNationality(data.nationality || "");
-      setBloodGroup(data.blood_group || "");
-      setHeight(data.height || "");
-      setWeight(data.weight || "");
-      setAllergies(data.allergies || "");
-      setConditions(data.existing_conditions || "");
-      setMedications(data.current_medication || "");
-      setFamilyHistory(data.family_med_history || "");
-      setEmergencyName(data.emergency_cont_name || "");
-      setRelation(data.emergency_relation || "");
-      setEmergencyPhone(data.emergency_contact || "");
-      setEmergencyEmail(data.emergency_email || "");
-      setLifestyle(data.life_style || "");
-      setLanguage(data.preferred_lang || "");
-      setCommunication(data.communication_pref || "");
-    }
+      console.error("Error fetching patient data:", error);}
+    
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     if (!patientId) {
       console.error("Patient ID not found in URL");
       return;
     }
-
-    const profileData = {
-      id: patientId,
-      email,
-      first_name: firstName,
-      last_name: lastName,
-      dob: dateOfBirth,
-      sex,
-      phone_number: phone,
-      address,
-      nationality,
-      blood_group: bloodGroup,
-      height,
-      weight,
-      allergies,
-      existing_conditions: conditions,
-      current_medication: medications,
-      family_med_history: familyHistory,
-      emergency_cont_name: emergencyName,
-      emergency_relation: relation,
-      emergency_contact: emergencyPhone,
-      emergency_email: emergencyEmail,
-      life_style: lifestyle,
-      preferred_lang: language,
-      communication_pref: communication,
-    };
-
-    const { data, error } = await supabase
-      .from("patients")
-      .upsert([profileData], { onConflict: ["id"] });
-
-    if (error) {
-      console.error("Error saving patient profile:", error);
-    } else {
-      console.log("Profile saved successfully:", data);
+  
+    console.log("Fetching existing patient data...");
+  
+    try {
+      // Step 1: Fetch Existing Data
+      const { data: existingData, error: fetchError } = await supabase
+        .from("patient")
+        .select("*")
+        .eq("patient_id", patientId)
+        .maybeSingle();
+  
+      if (fetchError) throw new Error("Error fetching existing data: " + fetchError.message);
+      else{
+        console.log(existingData);
+      }
+      
+      if (!existingData) {
+        console.warn("No existing patient data found for this ID.");
+        return;
+      }
+  
+      console.log("Existing data:", existingData);
+  
+      // Step 2: Prepare Updated Data
+      const updatedData = {
+        email: email || null,
+        first_name: firstName || null,
+        last_name: lastName || null,
+        dob: dateOfBirth ? new Date(dateOfBirth).toISOString().split("T")[0] : null,
+        sex: sex || null,
+        phone_number: phone || null,
+        address: address || null,
+        nationality: nationality || null,
+        blood_group: bloodGroup || null,
+        height: height || null,
+        weight: weight || null,
+        allergies: allergies || null,
+        existing_conditions: conditions || null,
+        current_medication: medications || null,
+        family_med_history: familyHistory || null,
+        emergency_cont_name: emergencyName || null,
+        emergency_relation: relation || null,
+        emergency_contact: emergencyPhone || null,
+        emergency_email: emergencyEmail || null,
+        life_style: lifestyle || null,
+        preferred_lang: language || null,
+        communication_preferred: communication || null,
+      };
+  
+      console.log("Updating profile with:", updatedData);
+  
+      // Step 3: Update Patient Data
+      const { data: updatedResponse, error: updateError } = await supabase
+        .from("patient")
+        .update(updatedData)
+        .eq("patient_id", patientId)
+        .select();
+  
+      if (updateError) throw new Error("Error updating profile: " + updateError.message);
+  
+      console.log("Updated Data Response:", updatedResponse);
+      console.log("Profile updated successfully!");
+      console.log(patientId);
+  
+      // navigate(`/patient/dashboard/${patientId}`);
+  
+    } catch (err) {
+      console.error("Error saving patient profile:", err.message);
     }
   };
+  
 
 
   return (

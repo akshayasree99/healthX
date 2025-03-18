@@ -36,7 +36,7 @@ function App() {
       {/* <Route path="/auth/loginpatient" element={<LoginPatient />} /> */} 
       <Route element={<ProtectedRoute />}>
           <Route path="/patient/dashboard/:id" element={<DashboardP />} />
-          <Route path="/patient/dashboardd" element={<DashboardD />} />
+          <Route path="/patient/dashboardd/:id" element={<DashboardD />} />
       </Route>
 
       <Route path="/register/patient/:id" element={<RegisterP/>}/>

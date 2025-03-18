@@ -95,7 +95,7 @@ export default function RegisterPage() {
         ]);
         if (patientError) throw patientError;
       } else if (userType === "doctor") {
-        const { error: doctorError } = await supabase.from("Doctor").insert([
+        const { error: doctorError } = await supabase.from("doctor").insert([
           {
             id: userId,
             email: formData.email,
