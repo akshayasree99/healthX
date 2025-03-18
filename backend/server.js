@@ -20,34 +20,7 @@ const io = new Server(server, {
 app.use(express.json());
 app.use(cors());
 
-io.on("connection", (socket) => {
-    console.log("A user connected:", socket.id);
 
-    socket.on("join-room", (roomId) => {
-        socket.join(roomId);
-        console.log(`User ${socket.id} joined room ${roomId}`);
-        io.to(roomId).emit("user-joined", { userId: socket.id });
-    });
-
-    socket.on("offer", (data) => {
-        console.log(`Offer received from ${socket.id} for room ${data.roomId}`);
-        socket.to(data.roomId).emit("offer", data);
-    });
-
-    socket.on("answer", (data) => {
-        console.log(`Answer received from ${socket.id} for room ${data.roomId}`);
-        socket.to(data.roomId).emit("answer", data);
-    });
-
-    socket.on("candidate", (data) => {
-        console.log(`ICE candidate from ${socket.id} for room ${data.roomId}`);
-        socket.to(data.roomId).emit("candidate", data);
-    });
-
-    socket.on("disconnect", () => {
-        console.log("User disconnected:", socket.id);
-    });
-});
 
 // ✅ **Fixed Chatbot API Request**
 app.post("/chatbot", async (req, res) => {
