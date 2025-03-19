@@ -4,6 +4,7 @@ const DashboardD = () => {
   const { id: doctorId } = useParams();
 
   const navItems = [
+<<<<<<< HEAD
     {
       route: `/doctor/appointments/${doctorId}`,
       icon: "📅",
@@ -88,6 +89,12 @@ const DashboardD = () => {
       color: "from-emerald-500 to-green-600",
       bgLight: "bg-emerald-50",
     },
+=======
+    { route: `/doctor/appointments/${doctorId}`, icon: "📅", label: "Appointments", color: "from-blue-500 to-blue-700" },
+    { route: `/doctor/patientlist/${doctorId}`, icon: "👥", label: "Patient List", color: "from-purple-500 to-purple-700" },
+     { route: `/doctor/profileD/${doctorId}`, icon: "👤", label: "Profile", color: "from-indigo-500 to-indigo-700" },
+    { route: `/doctor/videocall/${doctorId}`, icon: "📹", label: "Video Call", color: "from-red-500 to-red-700" },
+>>>>>>> 18bad521a61d094d398c11b636ac215e1ef6acfa
   ];
 
   return (
