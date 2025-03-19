@@ -17,7 +17,7 @@ const ProfileD = () => {
       try {
         const { data, error } = await supabase
           .from("doctor")
-          .select("full_name, email, gender, phone_number, specialization, experience, fees, available_hours")
+          .select("first_name,last_name, email, gender, phone_number, specialization, experience, fees, available_hours")
           .eq("doctor_id", doctorId)
           .single()
 
@@ -25,7 +25,8 @@ const ProfileD = () => {
           console.error("Error fetching doctor data:", error.message)
         } else {
           setDoctor({
-            name: data.full_name,
+            name: data.first_name,
+            lname: data.last_name,
             email: data.email,
             gender: data.gender,
             phone: data.phone_number,

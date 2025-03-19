@@ -8,7 +8,7 @@ const RegisterD = () => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        full_name: '',
+        first_name: '',
         dob: '',
         gender: '',
         phone_number: '',
@@ -115,12 +115,12 @@ const RegisterD = () => {
                             </h3>
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label htmlFor="full_name" className="block text-sm font-medium text-gray-700">Full Name</label>
+                                    <label htmlFor="first_name" className="block text-sm font-medium text-gray-700">Full Name</label>
                                     <input
                                         type="text"
-                                        id="full_name"
-                                        name="full_name"
-                                        value={formData.full_name}
+                                        id="first_name"
+                                        name="first_name"
+                                        value={formData.first_name}
                                         placeholder="Full Name (as per official ID)"
                                         onChange={handleChange}
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"

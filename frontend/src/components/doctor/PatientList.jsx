@@ -126,10 +126,5 @@ function PatientList() {
 }
 
 // Render the app
-createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <PatientList />
-  </React.StrictMode>
-);
 
 export default PatientList;
