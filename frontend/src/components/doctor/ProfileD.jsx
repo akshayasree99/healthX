@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { FaPills, FaCalendarAlt, FaFileMedical, FaUtensils, FaUserEdit, FaSun, FaMoon } from "react-icons/fa"
+import { FaPills, FaCalendarAlt, FaFileMedical, FaUtensils, FaUserEdit, FaSun, FaMoon, FaArrowLeft } from "react-icons/fa"
 import { useNavigate, useParams } from "react-router-dom"
 import { supabase } from "../../supabase"
 
@@ -50,6 +50,10 @@ const ProfileD = () => {
     navigate(`/register/doctor/${doctorId}`)
   }
 
+  const handleBack = () => {
+    navigate(`/patient/dashboard/${doctorId}`)
+  }
+
   return (
     <div
       className={`min-h-screen transition-colors duration-300 ${
@@ -57,19 +61,32 @@ const ProfileD = () => {
       }`}
     >
       <div className="container mx-auto px-4 py-8 max-w-6xl">
-        {/* Header with dark mode toggle */}
+        {/* Header with dark mode toggle and back button */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className={`flex items-center justify-between mb-8 ${darkMode ? "text-white" : "text-gray-800"}`}
         >
-          <h1 className="text-3xl font-bold flex items-center gap-2">
-            <span className="inline-block p-2 rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900 dark:text-indigo-300">
-              👤
-            </span>
-            Doctor Dashboard
-          </h1>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={handleBack}
+              className={`p-3 rounded-full transition-all ${
+                darkMode
+                  ? "bg-gray-800 hover:bg-gray-700 text-yellow-400"
+                  : "bg-white hover:bg-gray-100 text-indigo-600 shadow-md"
+              }`}
+              aria-label="Go back"
+            >
+              <FaArrowLeft className="text-xl" />
+            </button>
+            <h1 className="text-3xl font-bold flex items-center gap-2">
+              <span className="inline-block p-2 rounded-full bg-indigo-100 text-indigo-600 dark:bg-indigo-900 dark:text-indigo-300">
+                👤
+              </span>
+              Doctor Dashboard
+            </h1>
+          </div>
           <button
             onClick={() => setDarkMode(!darkMode)}
             className={`p-3 rounded-full transition-all ${
@@ -132,10 +149,6 @@ const ProfileD = () => {
                     <p className="text-sm text-gray-500 dark:text-gray-400">Phone</p>
                     <p className="font-medium">{doctor.phone}</p>
                   </div>
-                  {/* <div className={`p-4 rounded-xl ${darkMode ? "bg-gray-700" : "bg-indigo-50"}`}>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Specialization</p>
-                    <p className="font-medium">{doctor.specialization}</p>
-                  </div> */}
                   <div className={`p-4 rounded-xl ${darkMode ? "bg-gray-700" : "bg-indigo-50"}`}>
                     <p className="text-sm text-gray-500 dark:text-gray-400">Experience</p>
                     <p className="font-medium">{doctor.experience} years</p>
