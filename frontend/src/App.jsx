@@ -21,13 +21,13 @@ import ReportCreation from './components/doctor/ReportCreation';
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Chatbot from './components/chatbot/Chatbot.jsx'; // Import Chatbot
 import DoctorSearch from './components/patient/DoctorSearch.jsx'
-<<<<<<< HEAD
+
 import WoundDetection from './components/Home/WoundDetection.jsx';
 
 
-=======
+
 import VideoCall from './components/patient/VideoCall.jsx';
->>>>>>> 20cd301f6e743ef8b4e19dfb72afdf3e8deb4c99
+
 function App() {
 
   return (
