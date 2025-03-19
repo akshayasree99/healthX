@@ -49,3 +49,41 @@ app.post("/chatbot", async (req, res) => {
 
 const PORT = process.env.PORT || 5001;
 server.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+/* ========================== ✅ SOCKET.IO (Video Call) ========================== */
+io.on("connection", (socket) => {
+    console.log("A user connected:", socket.id);
+
+    socket.on("join-room", (roomId) => {
+        socket.join(roomId);
+        console.log(`User ${socket.id} joined room ${roomId}`);
+        io.to(roomId).emit("user-joined", { userId: socket.id });
+    });
+
+    socket.on("offer", (data) => {
+        socket.to(data.roomId).emit("offer", data);
+    });
+    
+    socket.on("answer", (data) => {
+        socket.to(data.roomId).emit("answer", data);
+    });
+    
+    socket.on("candidate", (data) => {
+        socket.to(data.roomId).emit("candidate", data);
+    });
+    
+
+    socket.on("disconnect", () => {
+        console.log("User disconnected:", socket.id);
+    });
+    socket.on("leave-room", (data) => {
+        console.log(`User ${socket.id} left room ${data.roomId}`);
+        socket.leave(data.roomId);
+        socket.to(data.roomId).emit("user-left", { userId: socket.id });
+    });
+    socket.on("user-left", ({ userId }) => {
+        console.log(`User ${userId} left the call`);
+    });
+    
+    
+});
