@@ -1,1 +1,0 @@
-// Placeholder for backend/src/api/routes/optional/mentalHealth.routes.js

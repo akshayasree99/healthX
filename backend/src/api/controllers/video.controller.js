@@ -1,1 +1,0 @@
-// Placeholder for backend/src/api/controllers/video.controller.js
