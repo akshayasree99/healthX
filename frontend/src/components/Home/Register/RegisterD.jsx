@@ -80,14 +80,10 @@ const RegisterD = () => {
         setError(null);
 
         try {
-            // Filter out empty fields to avoid overwriting existing data with empty values
-            const updatedData = Object.fromEntries(
-                Object.entries(formData).filter(([_, value]) => value !== '' && value.length !== 0)
-            );
-
+            // Send all form data, including empty fields
             const { error } = await supabase
                 .from('doctor')
-                .update(updatedData)
+                .update(formData) // Send the entire formData object
                 .eq('doctor_id', doctorId); // Update where doctor_id matches
 
             if (error) {

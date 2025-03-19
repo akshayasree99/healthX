@@ -20,7 +20,7 @@ import ProfileD from './components/doctor/ProfileD';
 import ReportCreation from './components/doctor/ReportCreation';
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Chatbot from './components/chatbot/Chatbot.jsx'; // Import Chatbot
-
+import DoctorSearch from './components/patient/DoctorSearch.jsx'
 
 function App() {
 
@@ -43,7 +43,7 @@ function App() {
       <Route path="/patient/medicationtracker/:id" element={<MedicationTracker/>} />
       <Route path="/patient/profile/:id" element={<Profile />} />
       <Route path="/patient/reports/:id" element={<Reports />} />
-     
+      <Route path="/patient/doctorsearch/:id" element={<DoctorSearch/>}/>
       {/* need to add a back option here */}
 
       <Route path="/doctor/appointments/:id" element={<Appointments />} />
