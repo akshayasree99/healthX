@@ -17,7 +17,7 @@ const ProfileD = () => {
       try {
         const { data, error } = await supabase
           .from("doctor")
-          .select("first_name,last_name, email, gender, phone_number, specialization, experience, fees, available_hours")
+          .select("first_name, last_name, email, gender, phone_number, specialization, experience, fees, available_date")
           .eq("doctor_id", doctorId)
           .single()
 
@@ -33,7 +33,7 @@ const ProfileD = () => {
             specialization: data.specialization,
             experience: data.experience,
             fees: data.fees,
-            availableHours: data.available_hours,
+            availableDate: data.available_date, // Updated to available_date
           })
         }
       } catch (err) {
@@ -51,7 +51,7 @@ const ProfileD = () => {
   }
 
   const handleBack = () => {
-    navigate(`/patient/dashboard/${doctorId}`)
+    navigate(`/patient/dashboardd/${doctorId}`)
   }
 
   return (
@@ -186,7 +186,7 @@ const ProfileD = () => {
 
           {/* Health Information Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {/* Available Hours */}
+            {/* Available Days */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -197,12 +197,12 @@ const ProfileD = () => {
                 <span className={`p-3 rounded-lg ${darkMode ? "bg-blue-900 text-blue-300" : "bg-blue-100 text-blue-600"}`}>
                   <FaCalendarAlt className="text-xl" />
                 </span>
-                <h3 className="text-xl font-semibold">Available Hours</h3>
+                <h3 className="text-xl font-semibold">Available Days</h3>
               </div>
 
               <div className={`h-40 overflow-auto rounded-lg ${darkMode ? "bg-gray-700" : "bg-gray-50"} p-3`}>
                 <p className={`text-center py-4 ${darkMode ? "text-gray-400" : "text-gray-500"}`}>
-                  {doctor?.availableHours || "No available hours listed"}
+                  {doctor?.availableDate ? doctor.availableDate.join(", ") : "No available days listed"}
                 </p>
               </div>
             </motion.div>

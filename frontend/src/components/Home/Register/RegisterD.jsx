@@ -22,7 +22,9 @@ const RegisterD = () => {
         specialization: '',
         experience: '',
         fees: '',
-        available_hours: '',
+        start_hours: '', // New field
+        end_hours: '',   // New field
+        available_date: [], // New field (array for multiple days)
         medical_school: '',
         graduation_year: ''
     });
@@ -43,7 +45,10 @@ const RegisterD = () => {
                 console.error('Error fetching doctor:', error);
                 setError('Failed to fetch doctor data.');
             } else {
-                setFormData(data); // Set fetched data in the form
+                setFormData({
+                    ...data,
+                    available_date: data.available_date || [] // Ensure available_date is an array
+                }); // Set fetched data in the form
             }
         };
 
@@ -56,6 +61,18 @@ const RegisterD = () => {
         setFormData({ ...formData, [name]: value });
     };
 
+    // Handle checkbox changes for available_date
+    const handleCheckboxChange = (e) => {
+        const { value, checked } = e.target;
+        setFormData((prevData) => {
+            const updatedDates = checked
+                ? [...prevData.available_date, value] // Add the day if checked
+                : prevData.available_date.filter((day) => day !== value); // Remove the day if unchecked
+
+            return { ...prevData, available_date: updatedDates };
+        });
+    };
+
     // Update doctor data in Supabase
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -65,7 +82,7 @@ const RegisterD = () => {
         try {
             // Filter out empty fields to avoid overwriting existing data with empty values
             const updatedData = Object.fromEntries(
-                Object.entries(formData).filter(([_, value]) => value !== '')
+                Object.entries(formData).filter(([_, value]) => value !== '' && value.length !== 0)
             );
 
             const { error } = await supabase
@@ -304,17 +321,48 @@ const RegisterD = () => {
                                     />
                                 </div>
 
+                                {/* New fields for start_hours, end_hours, and available_date */}
                                 <div className="space-y-2">
-                                    <label htmlFor="available_hours" className="block text-sm font-medium text-gray-700">Available Hours</label>
+                                    <label htmlFor="start_hours" className="block text-sm font-medium text-gray-700">Start Hours</label>
                                     <input
-                                        type="text"
-                                        id="available_hours"
-                                        name="available_hours"
-                                        value={formData.available_hours}
-                                        placeholder="Enter available hours"
+                                        type="time"
+                                        id="start_hours"
+                                        name="start_hours"
+                                        value={formData.start_hours}
                                         onChange={handleChange}
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
                                     />
+                                </div>
+
+                                <div className="space-y-2">
+                                    <label htmlFor="end_hours" className="block text-sm font-medium text-gray-700">End Hours</label>
+                                    <input
+                                        type="time"
+                                        id="end_hours"
+                                        name="end_hours"
+                                        value={formData.end_hours}
+                                        onChange={handleChange}
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                                    />
+                                </div>
+
+                                <div className="space-y-2 col-span-2">
+                                    <label className="block text-sm font-medium text-gray-700">Available Days</label>
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        {['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day) => (
+                                            <label key={day} className="flex items-center space-x-2">
+                                                <input
+                                                    type="checkbox"
+                                                    name="available_date"
+                                                    value={day}
+                                                    checked={formData.available_date.includes(day)}
+                                                    onChange={handleCheckboxChange}
+                                                    className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
+                                                />
+                                                <span className="text-sm text-gray-700">{day}</span>
+                                            </label>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
