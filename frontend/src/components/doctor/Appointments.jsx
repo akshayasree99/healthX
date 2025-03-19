@@ -182,6 +182,8 @@ const Appointments = () => {
     e.preventDefault();
     
     try {
+      let prescriptionId = existingPrescriptionId;
+      
       if (existingPrescriptionId) {
         // Update existing prescription
         const { error: updateError } = await supabase
@@ -220,6 +222,30 @@ const Appointments = () => {
         
         if (prescriptionError) throw prescriptionError;
         
+        prescriptionId = prescriptionRecord[0].id;
+        
+        // Create report separately with proper error handling
+        try {
+          const { error: reportError } = await supabase
+            .from('reports')
+            .insert([
+              {
+                patient_id: currentAppointment.patient_id,
+                doctor_id: currentDoctor.id,
+                name: `Report for ${currentAppointment.patient?.first_name} ${currentAppointment.patient?.last_name}`,
+                diagnosis: prescriptionData.diagnosis,
+                medications: prescriptionData.medications,
+                notes: prescriptionData.notes,
+                created_at: new Date()
+              }
+            ]);
+          
+          if (reportError) console.error('Report creation error:', reportError);
+        } catch (reportErr) {
+          console.error('Failed to create report:', reportErr);
+          // Continue with the rest of the process even if report creation fails
+        }
+        
         // Update appointment to indicate it has a prescription
         const { error: appointmentError } = await supabase
           .from('appointments')
@@ -241,9 +267,10 @@ const Appointments = () => {
       closePrescriptionForm();
     } catch (error) {
       console.error('Error saving prescription:', error);
-      alert('Failed to save prescription');
+      alert(`Failed to save: ${error.message || 'Unknown error'}`);
     }
   };
+  
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
