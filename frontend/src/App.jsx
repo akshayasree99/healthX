@@ -21,7 +21,7 @@ import ReportCreation from './components/doctor/ReportCreation';
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Chatbot from './components/chatbot/Chatbot.jsx'; // Import Chatbot
 import DoctorSearch from './components/patient/DoctorSearch.jsx'
-
+import VideoCall from './components/patient/VideoCall.jsx';
 function App() {
 
   return (
@@ -37,7 +37,8 @@ function App() {
           <Route path="/patient/dashboard/:id" element={<DashboardP />} />
           <Route path="/patient/dashboardd/:id" element={<DashboardD />} />
       </Route>
-
+      <Route path="/patient/videocall/:id" element={<VideoCall/>}/>
+      <Route path="/doctor/videocall/:id" element={<VideoCall/>}/>
       <Route path="/register/patient/:id" element={<RegisterP/>}/>
       <Route path="/patient/bookappointment/:id" element={<BookAppointment />} />
       <Route path="/patient/medicationtracker/:id" element={<MedicationTracker/>} />
