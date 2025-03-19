@@ -7,9 +7,7 @@ const DashboardD = () => {
   const navItems = [
     { route: `/doctor/appointments/${doctorId}`, icon: "📅", label: "Appointments", color: "from-blue-500 to-blue-700" },
     { route: `/doctor/patientlist/${doctorId}`, icon: "👥", label: "Patient List", color: "from-purple-500 to-purple-700" },
-    { route: `/doctor/reportcreation/${doctorId}`, icon: "📝", label: "Report Creation", color: "from-pink-500 to-pink-700" },
-    { route: `/doctor/handwrittenreportupload/${doctorId}`, icon: "📜", label: "Handwritten Report Upload", color: "from-green-500 to-green-700" },
-    { route: `/doctor/profileD/${doctorId}`, icon: "👤", label: "Profile", color: "from-indigo-500 to-indigo-700" },
+     { route: `/doctor/profileD/${doctorId}`, icon: "👤", label: "Profile", color: "from-indigo-500 to-indigo-700" },
     { route: `/doctor/videocall/${doctorId}`, icon: "📹", label: "Video Call", color: "from-red-500 to-red-700" },
   ];
 
