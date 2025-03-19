@@ -10,16 +10,21 @@ import {
   Clock, 
   Award,
   ChevronRight,
-  ArrowRight
+  ArrowRight,
+  Bandage
 } from 'lucide-react';
 
-
 function Home() {
-    const navigate=useNavigate();
+  const navigate = useNavigate();
     
-    const handleLogin =() =>{
-        navigate('/login');
-    }
+  const handleLogin = () => {
+    navigate('/login');
+  };
+
+  const handleWoundDetection = () => {
+    navigate('/wound');
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -35,6 +40,13 @@ function Home() {
               <a href="#for-doctors" className="text-gray-700 hover:text-blue-600 transition-colors">For Doctors</a>
               <a href="#for-patients" className="text-gray-700 hover:text-blue-600 transition-colors">For Patients</a>
               <a href="#testimonials" className="text-gray-700 hover:text-blue-600 transition-colors">Testimonials</a>
+              <button 
+                onClick={handleWoundDetection}
+                className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
+              >
+                <Bandage className="mr-2 h-5 w-5" />
+                Wound Detection
+              </button>
             </div>
             <div className="flex items-center space-x-4">
               <button className="px-4 py-2 text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50 transition-colors" onClick={handleLogin}>
@@ -70,7 +82,7 @@ function Home() {
             </div>
             <div className="md:w-1/2">
               <img 
-                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                src="/api/placeholder/800/500"
                 alt="Doctor with patient" 
                 className="rounded-lg shadow-xl"
               />
@@ -131,10 +143,10 @@ function Home() {
             </div>
             
             <div className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-              <Clock className="h-12 w-12 text-blue-600 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">24/7 Availability</h3>
+              <Bandage className="h-12 w-12 text-blue-600 mb-4" />
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Wound Detection</h3>
               <p className="text-gray-600">
-                Access your healthcare information anytime, anywhere. Emergency contact options always available.
+                Advanced AI-powered wound analysis for quick assessments and treatment recommendations.
               </p>
             </div>
           </div>
@@ -189,14 +201,14 @@ function Home() {
                 </div>
               </div>
               
-              <button onClick={() => navigate('/home/register/registerd')} className="mt-8 px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center">
+              <button onClick={() => navigate('/register/doctor')} className="mt-8 px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center">
                 Join as a Provider <ArrowRight className="ml-2 h-5 w-5" />
               </button>
             </div>
             
             <div className="md:w-1/2">
               <img 
-                src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                src="/api/placeholder/800/600"
                 alt="Doctor using digital tablet" 
                 className="rounded-lg shadow-xl"
               />
@@ -211,7 +223,7 @@ function Home() {
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 order-2 md:order-1">
               <img 
-                src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                src="/api/placeholder/800/600"
                 alt="Patient using healthcare app" 
                 className="rounded-lg shadow-xl"
               />
@@ -261,7 +273,7 @@ function Home() {
                 </div>
               </div>
               
-              <button onClick={() => navigate('/home/register/registerp')} className="mt-8 px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center">
+              <button onClick={() => navigate('/register/patient')} className="mt-8 px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center">
                 Sign Up as a Patient <ArrowRight className="ml-2 h-5 w-5" />
               </button>
             </div>

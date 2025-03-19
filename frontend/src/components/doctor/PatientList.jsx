@@ -1,19 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, Moon, Sun, User, Calendar, Activity, Clock } from 'lucide-react';
-import { createRoot } from 'react-dom/client';
-
-
-// Sample patient data
-const patients = [
-  { id: 1, name: "Sarah Johnson", age: 45, condition: "Hypertension", lastVisit: "2024-03-10", status: "Regular Checkup" },
-  { id: 2, name: "Michael Chen", age: 32, condition: "Diabetes Type 2", lastVisit: "2024-03-12", status: "Follow-up" },
-  { id: 3, name: "Emily Davis", age: 28, condition: "Asthma", lastVisit: "2024-03-08", status: "Emergency" },
-  { id: 4, name: "Robert Wilson", age: 56, condition: "Arthritis", lastVisit: "2024-03-15", status: "New Patient" },
-];
+import { supabase } from '../../supabase.js'; // Assuming you have a supabase client setup
 
 function PatientList() {
   const [darkMode, setDarkMode] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [patients, setPatients] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchPatients();
+  }, []);
+
+  const fetchPatients = async () => {
+    try {
+      setLoading(true);
+      
+      // First, just check if you can access the patient table
+      const { data, error } = await supabase
+        .from('patient')  // Make sure this matches your actual table name
+        .select('*')
+        .limit(10);
+  
+      if (error) {
+        console.error("Error fetching patients:", error);
+        throw error;
+      }
+      
+      console.log("Patient data:", data);
+      
+      if (data && data.length > 0) {
+        // Process simple data for display
+        const processedPatients = data.map(p => ({
+          id: p.id,
+          name: `${p.first_name || ''} ${p.last_name || ''}`.trim() || 'Unknown',
+          age: p.dob ? calculateAge(p.dob) : 'Unknown',
+          condition: p.condition || 'Not specified',
+          lastVisit: p.appointments?.[0]?.appointment_date
+          ? new Date(p.appointments[0].appointment_date).toLocaleDateString()
+          : 'Unknown',
+          status: 'Unknown',
+          email: p.email || ''
+        }));
+        
+        setPatients(processedPatients);
+      } else {
+        setPatients([]);
+      }
+      
+      setLoading(false);
+    } catch (error) {
+      console.error('Error in fetchPatients function:', error);
+      setLoading(false);
+    }
+  };
+  
+  // Helper function to calculate age
+  const calculateAge = (dob) => {
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
 
   const filteredPatients = patients.filter(patient =>
     patient.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -21,12 +73,13 @@ function PatientList() {
 
   const getStatusColor = (status) => {
     const colors = {
-      'Emergency': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-      'Regular Checkup': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-      'Follow-up': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-      'New Patient': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200'
+      'emergency': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+      'completed': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+      'scheduled': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+      'new': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
+      'cancelled': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
     };
-    return colors[status] || 'bg-gray-100 text-gray-800';
+    return colors[status.toLowerCase()] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
   };
 
   return (
@@ -75,6 +128,23 @@ function PatientList() {
           />
         </div>
 
+        {/* Loading State */}
+        {loading && (
+          <div className={`text-center py-12 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500 mx-auto mb-4"></div>
+            <p>Loading patient data...</p>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && filteredPatients.length === 0 && (
+          <div className={`text-center py-12 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+            <User className={`h-12 w-12 mx-auto mb-4 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+            <p className="text-xl">No patients found</p>
+            <p className="mt-2">Try adjusting your search or add new patients to the system.</p>
+          </div>
+        )}
+
         {/* Patient List */}
         <div className="grid gap-6">
           {filteredPatients.map(patient => (
@@ -104,12 +174,25 @@ function PatientList() {
                         {patient.condition}
                       </span>
                     </div>
+                    <div className="mt-2">
+                      <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        Email: {patient.email}
+                      </span>
+                      {patient.phone && (
+                        <span className={`text-sm ml-4 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          Phone: {patient.phone}
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className={`flex items-center gap-2 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                     <Clock className="h-4 w-4" />
                     <span>Last Visit: {patient.lastVisit}</span>
+                    <span className="ml-2 px-2 py-1 rounded-md bg-opacity-70 text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+                      {patient.appointmentType}
+                    </span>
                   </div>
                   <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
@@ -124,7 +207,5 @@ function PatientList() {
     </div>
   );
 }
-
-// Render the app
 
 export default PatientList;

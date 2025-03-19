@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@google/generative-ai": "^0.24.0",
     "@shadcn/ui": "^0.0.4",
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
