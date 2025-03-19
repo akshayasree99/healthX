@@ -1,1 +1,0 @@
-// Placeholder for frontend/src/contexts/ThemeContext.js

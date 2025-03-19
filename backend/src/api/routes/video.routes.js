@@ -1,1 +1,0 @@
-// Placeholder for backend/src/api/routes/video.routes.js

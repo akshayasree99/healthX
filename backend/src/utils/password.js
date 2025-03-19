@@ -1,1 +1,0 @@
-// Placeholder for backend/src/utils/password.js

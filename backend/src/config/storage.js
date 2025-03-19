@@ -1,1 +1,0 @@
-// Placeholder for backend/src/config/storage.js
