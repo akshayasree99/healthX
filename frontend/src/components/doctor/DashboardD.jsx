@@ -4,6 +4,7 @@ const DashboardD = () => {
   const { id: doctorId } = useParams();
 
   const navItems = [
+
     {
       route: `/doctor/appointments/${doctorId}`,
       icon: "📅",
@@ -24,26 +25,8 @@ const DashboardD = () => {
       gradient: "from-purple-500 to-violet-600",
       iconBg: "bg-purple-100",
     },
-    {
-      route: `/doctor/reportcreation/${doctorId}`,
-      icon: "📝",
-      label: "Report Creation",
-      description: "Create detailed medical reports",
-      color: "bg-pink-50 border-pink-500",
-      hoverColor: "hover:bg-pink-100",
-      gradient: "from-pink-500 to-rose-600",
-      iconBg: "bg-pink-100",
-    },
-    {
-      route: `/doctor/handwrittenreportupload/${doctorId}`,
-      icon: "📜",
-      label: "Report Upload",
-      description: "Upload handwritten reports",
-      color: "bg-emerald-50 border-emerald-500",
-      hoverColor: "hover:bg-emerald-100",
-      gradient: "from-emerald-500 to-green-600",
-      iconBg: "bg-emerald-100",
-    },
+    
+    
     {
       route: `/doctor/profileD/${doctorId}`,
       icon: "👤",
@@ -88,6 +71,7 @@ const DashboardD = () => {
       color: "from-emerald-500 to-green-600",
       bgLight: "bg-emerald-50",
     },
+
   ];
 
   return (

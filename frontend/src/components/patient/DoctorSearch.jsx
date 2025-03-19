@@ -49,7 +49,7 @@ function App() {
             patient_stories: "99%",
             availability: "Available Today",
             booking_options: ["Book Clinic Visit", "No Booking Fee", "Contact Hospital"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB0CEY_3mJ8sHumS7-pOXX9vcrAz8jIjA4rA&s",
           },
           {
             name: "Dr. Usha Kiran",
@@ -63,7 +63,7 @@ function App() {
             patient_stories: "99%",
             availability: "Available Today",
             booking_options: ["Book Clinic Visit", "No Booking Fee", "Contact Hospital"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://lyfboat-os.s3.fr-par.scw.cloud/lyfboat/uploads/doctors/1436-profile-1436-profile-dr-sks-marya.jpg",
           },
           {
             name: "Dr. Aditya Sandeep Kodati",
@@ -77,7 +77,7 @@ function App() {
             patient_stories: "98%",
             availability: "Available Today",
             booking_options: ["Book Clinic Visit", "No Booking Fee", "Contact Clinic"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwdCwtn6iaZd0XGLEslc4zTHP6owMh9qZYeRhgBs1GptrpKWNVfAqzT2HHdy2QxgMZAIs&usqp=CAU",
           },
           {
             name: "Dr. Naresh Kumar V",
@@ -91,7 +91,7 @@ function App() {
             patient_stories: "99%",
             availability: "Available Today",
             booking_options: ["Book Clinic Visit", "No Booking Fee", "Contact Hospital"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCgyQolK3kUbnZnHlWPTITJ5_rkQCUHhdq-eW-d1VPZJfAsjesOeGy9jeRzf2cccpoej8&usqp=CAU",
           },
           {
             name: "Dr. Arvind Nahata",
@@ -105,7 +105,7 @@ function App() {
             patient_stories: "99%",
             availability: "Available Today",
             booking_options: ["Book Clinic Visit", "No Booking Fee", "Contact Clinic"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVDcrLiqVJeJa3ZA0y4fed702KvRI_xQ6BxAyfuxmijxng3yWxfDqQKPLROsJEk4xiPE4&usqp=CAU",
           },
           {
             name: "Dr. Geetha Rani Kodati",
@@ -119,7 +119,7 @@ function App() {
             patient_stories: "100%",
             availability: "Available Today",
             booking_options: ["Book Clinic Visit", "No Booking Fee", "Contact Clinic"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://i.pinimg.com/736x/c5/a3/90/c5a3904b38eb241dd03dd30889599dc4.jpg",
           },
           {
             name: "Dr. Namratha CH",
@@ -133,7 +133,7 @@ function App() {
             patient_stories: "100%",
             availability: "Available Today",
             booking_options: ["Book Clinic Visit", "No Booking Fee", "Contact Clinic"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://i.pinimg.com/474x/1b/bc/d4/1bbcd4bc95c3c3221b11b06995b146b7.jpg",
           },
           {
             name: "Dr. Ahmed Syed Mubashir",
@@ -147,7 +147,7 @@ function App() {
             patient_stories: "100%",
             availability: "Available Today",
             booking_options: ["Book Clinic Visit", "No Booking Fee", "Contact Clinic"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://imagesvs.oneindia.com/img/2014/12/16-1418731854-vivekmurthy.jpg",
           },
           {
             name: "Dr. C V Sarath Krishna",
@@ -161,7 +161,7 @@ function App() {
             patient_stories: "100%",
             availability: "Available Today",
             booking_options: ["Book Clinic Visit", "No Booking Fee", "Contact Clinic"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://thumbs.dreamstime.com/b/vertical-portrait-male-happy-indian-doctor-standing-clinic-hospital-smiling-happy-male-indian-latin-doctor-medical-worker-228700065.jpg",
           },
           {
             name: "Dr. Yashvanth Bethapudi",
@@ -175,7 +175,7 @@ function App() {
             patient_stories: "99%",
             availability: "Available Tomorrow",
             booking_options: ["Book Clinic Visit", "No Booking Fee", "Contact Clinic"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://familyopd.com/img/profile_photo/3141723435ff86546ddc2e3.9790813512371877385ff00fba9a08d6.60778224_dr._santosh_kondekar_2.png0",
           },
           {
             name: "Dr. K Rohini",
@@ -189,7 +189,7 @@ function App() {
             patient_stories: null,
             availability: "Available Today",
             booking_options: ["Book Clinic Visit", "No Booking Fee", "Contact Hospital"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://media.istockphoto.com/id/1298932006/photo/female-doctor-sitting-at-desk-in-office-clinic.jpg?s=612x612&w=0&k=20&c=cb9EtbSJSDPW8yIJ9dkFU6AxWxqMx5PR-Hv0bBv1yMc=",
           },
           {
             name: "Dr. Taufiq Munshi",
@@ -203,7 +203,7 @@ function App() {
             patient_stories: "100%",
             availability: "Contact Clinic",
             booking_options: ["Book Video Consult"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://news.wayne.edu/storage/files/teena-chopra-md-2020-hori-60ba59f48659b-60d0a6daacd44.jpg",
           },
           {
             name: "Dr. V.Bhadra Rao",
@@ -217,7 +217,7 @@ function App() {
             patient_stories: "100%",
             availability: "ON - CALL",
             booking_options: ["Contact Clinic", "View Profile"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://t3.ftcdn.net/jpg/06/81/62/44/360_F_681624470_Bove01iM9IM8fxlgEOGdnntS3zBKjsxK.jpg",
           },
           {
             name: "Dr. Syed Ali Hasnain",
@@ -231,7 +231,7 @@ function App() {
             patient_stories: "97%",
             availability: "Contact Clinic",
             booking_options: ["View Profile"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://www.internationalinsurance.com/wp-content/uploads/2021/04/Indian-doctor-at-desk-scaled.jpg",
           },
           {
             name: "Dr. G Hemamalini",
@@ -245,7 +245,7 @@ function App() {
             patient_stories: "100%",
             availability: "Contact Clinic",
             booking_options: ["View Profile"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://www.shutterstock.com/image-photo/medical-concept-indian-doctor-uniform-600nw-2313987627.jpg",
           },
           {
             name: "Dr. Naveen Kumar Reddy K",
@@ -259,7 +259,7 @@ function App() {
             patient_stories: null,
             availability: "Contact Clinic",
             booking_options: ["View Profile"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://t3.ftcdn.net/jpg/05/85/85/10/360_F_585851080_bl0NqsZWOfoNFBS58Uka2D6BjJidRSo2.jpg",
           },
           {
             name: "Dr. Riya Goyal",
@@ -273,7 +273,7 @@ function App() {
             patient_stories: null,
             availability: "Contact Clinic",
             booking_options: ["View Profile"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://t3.ftcdn.net/jpg/05/85/85/10/360_F_585851080_bl0NqsZWOfoNFBS58Uka2D6BjJidRSo2.jpghttps://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqsFmIlOHVYrERyfzyqzkWuvBGGeTKOkJhHrQaWv57hQlxiU-ZpJ8pJPqfMjJEC-IIECg&usqp=CAU",
           },
           {
             name: "Dr. D Shirisha",
@@ -287,7 +287,7 @@ function App() {
             patient_stories: "100%",
             availability: "Contact Hospital",
             booking_options: ["View Profile"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://previews.123rf.com/images/prashantzi/prashantzi1103/prashantzi110300003/9423649-indian-beautiful-female-doctor.jpg",
           },
           {
             name: "Dr. Alekhya A",
@@ -301,7 +301,7 @@ function App() {
             patient_stories: null,
             availability: "Contact Clinic",
             booking_options: ["View Profile"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoIY2aPaqai2vM6jvRg9Ll2nzxfyySudXUuw&s",
           },
           {
             name: "Dr. Sivavenkata Malati Nalli",
@@ -315,7 +315,7 @@ function App() {
             patient_stories: "98%",
             availability: "ON - CALL",
             booking_options: ["Contact Clinic", "View Profile"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://littleindia.com/wp-content/themes/grandnews-child/files/dec2007/Bains_Manjit_2007.jpg",
           },
           {
             name: "Birla Fertility & IVF",
@@ -329,7 +329,7 @@ function App() {
             patient_stories: "11",
             availability: "Available",
             booking_options: ["Book Clinic Visit"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://plus.unsplash.com/premium_photo-1682089872205-dbbae3e4ba32?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
           },
           {
             name: "Dr. Sridevi Gutta",
@@ -343,7 +343,7 @@ function App() {
             patient_stories: "52",
             availability: "Available Today",
             booking_options: ["Book Clinic Visit"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://img.freepik.com/free-photo/handsome-young-male-doctor-with-stethoscope-standing-against-blue-background_662251-343.jpg?semt=ais_hybrid",
           },
           {
             name: "Dr. Roopa Ghanta",
@@ -357,7 +357,7 @@ function App() {
             patient_stories: "111",
             availability: "Available Today",
             booking_options: ["Book Clinic Visit"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://medsurgeindia.com/wp-content/uploads/2024/02/Dr.-N-Subrahmaneswara-Babu.webp",
           },
           {
             name: "Dr. Narla Ashwani",
@@ -371,7 +371,7 @@ function App() {
             patient_stories: "1",
             availability: "Available Today",
             booking_options: ["Book Clinic Visit"],
-            image: "https://images.pexels.com/photos/8376181/pexels-photo-8376181.jpeg?auto=compress&cs=tinysrgb&w=600",
+            image: "https://st2.depositphotos.com/4153545/8174/i/950/depositphotos_81742850-stock-photo-indian-woman-doctor.jpg",
           },
           {
             "name": "Dr. V Hemalatha Reddy",
@@ -384,7 +384,8 @@ function App() {
             "consultation_fee": "800",
             "patient_stories": null,
             "availability": "Available Today",
-            "booking_options": ["Book Clinic Visit"]
+            "booking_options": ["Book Clinic Visit"],
+            image: "https://studymedic.com/wp-content/uploads/2024/12/photo_2024-12-18_09-48-23-850x600.jpg",
           },
           {
             "name": "Dr. Manav Chintawar",
@@ -397,7 +398,8 @@ function App() {
             "consultation_fee": "300",
             "patient_stories": "3",
             "availability": "Available Today",
-            "booking_options": ["Book Clinic Visit"]
+            "booking_options": ["Book Clinic Visit"],
+            image: "https://t4.ftcdn.net/jpg/03/20/74/45/360_F_320744517_TaGkT7aRlqqWdfGUuzRKDABtFEoN5CiO.jpg",
           },
           {
             "name": "Dr. Amishrita Chintawar",
@@ -410,7 +412,8 @@ function App() {
             "consultation_fee": "400",
             "patient_stories": "16",
             "availability": "Available Tomorrow",
-            "booking_options": ["Book Clinic Visit"]
+            "booking_options": ["Book Clinic Visit"],
+            image: "https://st.depositphotos.com/49005766/54607/i/450/depositphotos_546075446-stock-photo-indian-female-doctor-portrait-south.jpg",
           },
           {
             "name": "Dr. Pushpalata Damaraju",
@@ -423,7 +426,8 @@ function App() {
             "consultation_fee": "500",
             "patient_stories": "133",
             "availability": null,
-            "booking_options": ["Contact Hospital"]
+            "booking_options": ["Contact Hospital"],
+            image: "https://st.depositphotos.com/49005766/54607/i/450/depositphotos_546073078-stock-photo-indian-female-doctor-portrait-south.jpg",
           },
           {
             "name": "Dr. Sagi Swathi",
@@ -436,7 +440,8 @@ function App() {
             "consultation_fee": "500",
             "patient_stories": "5",
             "availability": "Available on Fri, 21 Mar",
-            "booking_options": ["Book Clinic Visit"]
+            "booking_options": ["Book Clinic Visit"],
+            image: "https://thumbs.dreamstime.com/b/confident-young-adult-indian-female-doctor-gp-wear-white-coat-stethoscope-looking-camera-standing-arms-crossed-medical-191740547.jpg",
           },
           {
             "name": "Dr. M Beulah",
@@ -449,7 +454,8 @@ function App() {
             "consultation_fee": "800",
             "patient_stories": null,
             "availability": null,
-            "booking_options": null
+            "booking_options": null,
+            image: "https://media.istockphoto.com/id/1367507209/photo/portrait-of-indian-female-doctor-stock-photo.jpg?s=612x612&w=0&k=20&c=mI-MPGA_bHBLK9D77v8shYOZdI7Pqnlh2_xJE00tUHM=",
           }
       ]
     };

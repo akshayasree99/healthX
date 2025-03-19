@@ -396,9 +396,9 @@ const MedicationTracker = () => {
     const allPending = medications.every(med => med.status === "Pending");
     
     if (allTaken) {
-      setOverallStatus("Complete");
-    } else if (someMissed) {
       setOverallStatus("Incomplete");
+    } else if (someMissed) {
+      setOverallStatus("Complete");
     } else if (allPending) {
       setOverallStatus("Pending");
     } else {
@@ -438,7 +438,7 @@ const MedicationTracker = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 via-purple-200 to-pink-300 p-8">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-300 p-8">
         <h1 className="text-2xl font-bold text-gray-800 mb-4">Please log in to use the Medication Tracker</h1>
         <p>You need to be signed in to track your medications.</p>
       </div>
@@ -446,19 +446,19 @@ const MedicationTracker = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gradient-to-br from-blue-100 via-purple-200 to-pink-300 p-8">
+    <div className="min-h-screen flex flex-col items-center bg-white">
       {/* Title */}
       <motion.h1
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-4xl font-bold bg-gradient-to-r from-red-500 to-purple-600 bg-clip-text text-transparent mb-6"
+        className="text-3xl md:text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 tracking-tight"
       >
         Medication Tracker 💊
       </motion.h1>
       
       {/* Overall Status */}
-      <div className="mb-6 text-center">
+      <div className="mb-6 text-center ">
         <h2 className="text-xl font-semibold text-gray-800">Today's Status: 
           <span className={`ml-2 font-bold ${
             overallStatus === "Complete" ? "text-green-600" : 
@@ -471,7 +471,7 @@ const MedicationTracker = () => {
       </div>
 
       {/* Medication Table */}
-      <div className="w-full max-w-4xl bg-white bg-opacity-80 shadow-xl rounded-xl p-6 backdrop-blur-lg">
+      <div className="w-full max-w-4xl bg-slate-100 bg-opacity-80 shadow-xl rounded-xl p-6 backdrop-blur-lg">
         {loading ? (
           <div className="text-center py-8">Loading your medications...</div>
         ) : medications.length === 0 ? (
@@ -519,33 +519,37 @@ const MedicationTracker = () => {
                   }`}>
                     {med.status}
                   </td>
-                  <td className="p-3">
-                    <div className="flex space-x-2 flex-wrap">
+                  <td className="p-5">
+                    <div className="flex  items-center gap-2">
                       <button 
                         onClick={() => handleStatusChange(med.id, "Taken")}
-                        className={`px-3 py-1 rounded text-xs mb-1 ${
-                          med.status === "Taken" ? "bg-green-500 text-white" : "bg-gray-200"
+                        className={`px-5 py-0.5 rounded-lg text-sm font-medium shadow-md transition ${
+                          med.status === "Taken" 
+                            ? "bg-green-500 text-white hover:bg-green-600" 
+                            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                         }`}
                       >
                         ✓ Taken
                       </button>
                       <button 
                         onClick={() => handleStatusChange(med.id, "Missed")}
-                        className={`px-3 py-1 rounded text-xs mb-1 ${
-                          med.status === "Missed" ? "bg-red-500 text-white" : "bg-gray-200"
+                        className={`px-5 py-0.5 rounded-lg text-sm font-medium shadow-md transition ${
+                          med.status === "Missed" 
+                            ? "bg-red-500 text-white hover:bg-red-600" 
+                            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
                         }`}
                       >
                         ✗ Missed
                       </button>
                       <button 
                         onClick={() => handleEditMedication(med)}
-                        className="px-3 py-1 bg-blue-500 text-white rounded text-xs mb-1"
+                        className="px-5 py-0.5 bg-blue-500 text-white rounded-lg text-sm font-medium shadow-md hover:bg-blue-600 transition"
                       >
                         ✎ Edit
                       </button>
                       <button 
                         onClick={() => handleDeleteMedication(med.id)}
-                        className="px-3 py-1 bg-red-500 text-white rounded text-xs mb-1"
+                        className="px-5 py-0.5 bg-red-500 text-white rounded-lg text-sm font-medium shadow-md hover:bg-red-600 transition"
                       >
                         🗑️ Delete
                       </button>
@@ -581,14 +585,14 @@ const MedicationTracker = () => {
       <motion.button
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="mt-6 px-6 py-3 bg-gradient-to-r from-red-500 to-purple-600 text-white font-semibold rounded-xl shadow-lg"
+        className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 mb-6 tracking-tight font-semibold rounded-xl shadow-lg text-white"
         onClick={() => {
           setEditingMed(null);
           setNewMed({ name: "", dosage: "", frequency: "", time: "" });
           setShowModal(true);
         }}
       >
-        ➕ Add Medication
+        + Add Medication
       </motion.button>
 
       {/* Add/Edit Medication Modal */}

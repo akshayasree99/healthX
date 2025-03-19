@@ -4,6 +4,7 @@ import { Stethoscope, Calendar, MessageSquare, FileText, Shield, Users, Clock, A
 
 function Home() {
   const navigate = useNavigate();
+
     
   const handleLogin = () => {
     navigate('/login');
