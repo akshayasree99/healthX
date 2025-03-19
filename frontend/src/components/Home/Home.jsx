@@ -1,12 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Stethoscope, Calendar, MessageSquare, FileText, Shield, Users, Clock, Award, ChevronRight, ArrowRight, Ban as Bandage } from 'lucide-react';
+import { Stethoscope, Calendar, MessageSquare, FileText, Shield, Users, Clock, Award, ChevronRight, ArrowRight,BandageIcon, Ban as Bandage } from 'lucide-react';
 
 function Home() {
   const navigate = useNavigate();
     
   const handleLogin = () => {
     navigate('/login');
+  };
+
+  const handleRegister = () => {
+    navigate('/register');
   };
 
   const handleWoundDetection = () => {
@@ -32,7 +36,7 @@ function Home() {
                 onClick={handleWoundDetection}
                 className="flex items-center px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors"
               >
-                <Bandage className="mr-2 h-5 w-5" />
+                <BandageIcon className="mr-2 h-6 w-5" />
                 Wound Detection
               </button>
             </div>
@@ -40,7 +44,7 @@ function Home() {
               <button className="px-4 py-2 text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50 transition-colors" onClick={handleLogin}>
                 Log in
               </button>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors" onClick={handleRegister}>
                 Sign up
               </button>
             </div>
@@ -131,7 +135,7 @@ function Home() {
             </div>
             
             <div className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-              <Bandage className="h-12 w-12 text-blue-600 mb-4" />
+              <BandageIcon className="h-12 w-12 text-blue-600 mb-4" />
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Wound Detection</h3>
               <p className="text-gray-600">
                 Advanced AI-powered wound analysis for quick assessments and treatment recommendations.
