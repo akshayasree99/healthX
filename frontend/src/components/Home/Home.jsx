@@ -1,18 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { 
-  Stethoscope, 
-  Calendar, 
-  MessageSquare, 
-  FileText, 
-  Shield, 
-  Users, 
-  Clock, 
-  Award,
-  ChevronRight,
-  ArrowRight,
-  Bandage
-} from 'lucide-react';
+import { Stethoscope, Calendar, MessageSquare, FileText, Shield, Users, Clock, Award, ChevronRight, ArrowRight, Ban as Bandage } from 'lucide-react';
 
 function Home() {
   const navigate = useNavigate();
@@ -82,7 +70,7 @@ function Home() {
             </div>
             <div className="md:w-1/2">
               <img 
-                src="/api/placeholder/800/500"
+                src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80"
                 alt="Doctor with patient" 
                 className="rounded-lg shadow-xl"
               />
@@ -208,7 +196,7 @@ function Home() {
             
             <div className="md:w-1/2">
               <img 
-                src="/api/placeholder/800/600"
+                src="https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=800&q=80"
                 alt="Doctor using digital tablet" 
                 className="rounded-lg shadow-xl"
               />
@@ -223,7 +211,7 @@ function Home() {
           <div className="flex flex-col md:flex-row items-center">
             <div className="md:w-1/2 order-2 md:order-1">
               <img 
-                src="/api/placeholder/800/600"
+                src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=800&q=80"
                 alt="Patient using healthcare app" 
                 className="rounded-lg shadow-xl"
               />

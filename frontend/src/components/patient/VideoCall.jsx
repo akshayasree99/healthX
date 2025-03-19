@@ -54,7 +54,6 @@ const VideoCall = () => {
             socket.off("user-left");
         };
     }, [peerConnection, joined]);
-    
 
     const joinRoom = () => {
         if (!roomId.trim()) return alert("Please enter a Room ID");
@@ -93,7 +92,6 @@ const VideoCall = () => {
             console.error("❌ Error starting call:", error);
         }
     };
-    
 
     const handleOffer = async (offer) => {
         try {
@@ -127,7 +125,6 @@ const VideoCall = () => {
             console.error("❌ Error handling offer:", error);
         }
     };
-    
 
     const endCall = () => {
         peerConnection?.close();
@@ -140,49 +137,126 @@ const VideoCall = () => {
     };
 
     return (
-        <div className="flex flex-col items-center bg-[#d7e6f5] min-h-screen text-gray-800 p-8">
-            <h2 className="text-3xl font-bold mb-8 text-[#2a5c99]">Video Call</h2>
+        <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-900">
             {!joined ? (
-                <div className="flex flex-col items-center space-y-6 bg-[#fef3c7] p-8 rounded-2xl shadow-lg">
-                    <input
-                        type="text"
-                        value={roomId}
-                        onChange={(e) => setRoomId(e.target.value)}
-                        placeholder="Enter Room ID"
-                        className="border border-gray-300 p-3 w-80 rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-[#fbbf24]"
-                    />
-                    <button onClick={joinRoom} className="bg-[#fbbf24] text-white px-6 py-3 rounded-lg shadow-md hover:bg-[#f59e0b]">
-                        Join Room
-                    </button>
+                <div className="flex flex-col items-center justify-center min-h-screen px-4">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="w-full max-w-md bg-white/10 backdrop-blur-xl p-8 rounded-2xl shadow-2xl"
+                    >
+                        <h2 className="text-3xl font-bold mb-8 text-white text-center">
+                            Join Video Call
+                        </h2>
+                        <div className="space-y-6">
+                            <div>
+                                <input
+                                    type="text"
+                                    value={roomId}
+                                    onChange={(e) => setRoomId(e.target.value)}
+                                    placeholder="Enter Room ID"
+                                    className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                />
+                            </div>
+                            <motion.button
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={joinRoom}
+                                className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition-all duration-200 shadow-lg"
+                            >
+                                Join Room
+                            </motion.button>
+                        </div>
+                    </motion.div>
                 </div>
             ) : (
-                <>
-                    <div className="flex justify-center space-x-8 mb-6">
-                        <video ref={localVideoRef} autoPlay playsInline className="border rounded-lg w-[480px] h-[360px] bg-black shadow-lg" />
-                        <video ref={remoteVideoRef} autoPlay playsInline className="border rounded-lg w-[480px] h-[360px] bg-black shadow-lg" />
+                <div className="container mx-auto p-6">
+                    <div className="bg-white/5 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden">
+                        <div className="p-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="relative">
+                                    <video
+                                        ref={localVideoRef}
+                                        autoPlay
+                                        playsInline
+                                        className="w-full rounded-xl object-cover aspect-video bg-black/40"
+                                    />
+                                    <div className="absolute bottom-4 left-4 bg-black/50 px-3 py-1 rounded-lg text-white text-sm">
+                                        You
+                                    </div>
+                                </div>
+                                <div className="relative">
+                                    <video
+                                        ref={remoteVideoRef}
+                                        autoPlay
+                                        playsInline
+                                        className="w-full rounded-xl object-cover aspect-video bg-black/40"
+                                    />
+                                    <div className="absolute bottom-4 left-4 bg-black/50 px-3 py-1 rounded-lg text-white text-sm">
+                                        Remote User
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="mt-6 flex flex-wrap justify-center gap-4">
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={startCall}
+                                    className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl hover:opacity-90 transition-all duration-200 shadow-lg"
+                                >
+                                    <FaVideo className="text-xl" />
+                                    <span>Start Call</span>
+                                </motion.button>
+
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={endCall}
+                                    className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-xl hover:opacity-90 transition-all duration-200 shadow-lg"
+                                >
+                                    <FaPhoneSlash className="text-xl" />
+                                    <span>End Call</span>
+                                </motion.button>
+
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={() => setVideoOn(!videoOn)}
+                                    className={`px-6 py-3 rounded-xl text-white transition-all duration-200 shadow-lg ${
+                                        videoOn ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-orange-500 to-red-500'
+                                    }`}
+                                >
+                                    <FaVideo className="text-xl" />
+                                </motion.button>
+
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={() => setIsMuted(!isMuted)}
+                                    className={`px-6 py-3 rounded-xl text-white transition-all duration-200 shadow-lg ${
+                                        !isMuted ? 'bg-gradient-to-r from-blue-500 to-cyan-500' : 'bg-gradient-to-r from-orange-500 to-red-500'
+                                    }`}
+                                >
+                                    {isMuted ? <FaMicrophoneSlash className="text-xl" /> : <FaMicrophone className="text-xl" />}
+                                </motion.button>
+                            </div>
+
+                            <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                                {[FaRegClock, FaComments, FaFileUpload, FaRecordVinyl, FaBell, FaDesktop, FaRedo, FaGlobe, FaUsers, FaHeadset].map((Icon, index) => (
+                                    <motion.div
+                                        key={index}
+                                        whileHover={{ scale: 1.05, y: -2 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="flex flex-col items-center justify-center p-4 bg-white/5 backdrop-blur-sm rounded-xl cursor-pointer hover:bg-white/10 transition-all duration-200"
+                                    >
+                                        <Icon className="text-2xl text-white/80 mb-2" />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                    <div className="flex space-x-6 mb-6">
-                        <button onClick={startCall} className="bg-[#2a5c99] text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-[#1f4a77]">
-                            <FaVideo /> <span>Start Call</span>
-                        </button>
-                        <button onClick={endCall} className="bg-[#ef476f] text-white px-6 py-3 rounded-lg flex items-center space-x-2 hover:bg-[#d43f5e]">
-                            <FaPhoneSlash /> <span>End Call</span>
-                        </button>
-                        <button onClick={() => setVideoOn(!videoOn)} className="bg-[#fbbf24] text-white px-6 py-3 rounded-lg">
-                            {videoOn ? <FaVideo /> : "📷"}
-                        </button>
-                        <button onClick={() => setIsMuted(!isMuted)} className="bg-[#6b7280] text-white px-6 py-3 rounded-lg">
-                            {isMuted ? <FaMicrophoneSlash /> : <FaMicrophone />}
-                        </button>
-                    </div>
-                    <div className="grid grid-cols-5 gap-4">
-                        {[FaRegClock, FaComments, FaFileUpload, FaRecordVinyl, FaBell, FaDesktop, FaRedo, FaGlobe, FaUsers, FaHeadset].map((Icon, index) => (
-                            <motion.div key={index} whileHover={{ scale: 1.1 }} className="flex flex-col items-center bg-[#e0f2fe] p-4 rounded-xl shadow-md">
-                                <Icon className="text-4xl text-[#2a5c99] mb-2" />
-                            </motion.div>
-                        ))}
-                    </div>
-                </>
+                </div>
             )}
         </div>
     );
