@@ -9,6 +9,7 @@ const DashboardP = () => {
   const [nextAppointment, setNextAppointment] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [showTipsModal, setShowTipsModal] = useState(false)
 
   useEffect(() => {
     async function fetchNextAppointment() {
@@ -200,6 +201,58 @@ const DashboardP = () => {
     },
   ]
 
+  // Array of health tips for the modal
+  const healthTips = [
+    {
+      icon: "💧",
+      title: "Stay Hydrated",
+      description: "Drink at least 8 glasses of water daily to maintain bodily functions and energy levels.",
+      color: "bg-blue-100",
+    },
+    {
+      icon: "🍎",
+      title: "Balanced Nutrition",
+      description: "Include fruits, vegetables, whole grains, lean proteins, and healthy fats in your daily diet.",
+      color: "bg-green-100",
+    },
+    {
+      icon: "🏃",
+      title: "Regular Exercise",
+      description: "Aim for at least 150 minutes of moderate aerobic activity or 75 minutes of vigorous activity weekly.",
+      color: "bg-orange-100",
+    },
+    {
+      icon: "😴",
+      title: "Quality Sleep",
+      description: "Adults should get 7-9 hours of sleep per night for optimal health and cognitive function.",
+      color: "bg-purple-100",
+    },
+    {
+      icon: "🧘",
+      title: "Stress Management",
+      description: "Practice meditation, deep breathing, or yoga to reduce stress levels and improve mental health.",
+      color: "bg-pink-100",
+    },
+    {
+      icon: "🧠",
+      title: "Mental Wellness",
+      description: "Take time for activities you enjoy and maintain social connections to support mental health.",
+      color: "bg-indigo-100",
+    },
+    {
+      icon: "🧪",
+      title: "Regular Check-ups",
+      description: "Schedule annual physical exams and recommended screenings based on your age and health status.",
+      color: "bg-yellow-100",
+    },
+    {
+      icon: "🚭",
+      title: "Avoid Harmful Habits",
+      description: "Limit alcohol consumption, avoid smoking, and stay away from other harmful substances.",
+      color: "bg-red-100",
+    }
+  ]
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 font-sans">
       <div className="container mx-auto px-4 py-12 max-w-7xl">
@@ -327,7 +380,10 @@ const DashboardP = () => {
             </p>
 
             <div className="mt-6 flex justify-end">
-              <button className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg backdrop-blur-sm transition-colors duration-300 flex items-center space-x-2">
+              <button 
+                onClick={() => setShowTipsModal(true)}
+                className="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg backdrop-blur-sm transition-colors duration-300 flex items-center space-x-2"
+              >
                 <span>More Tips</span>
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
@@ -336,6 +392,58 @@ const DashboardP = () => {
             </div>
           </div>
         </div>
+
+        {/* Health Tips Modal */}
+        {showTipsModal && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[80vh] overflow-y-auto animate-fadeIn">
+              <div className="sticky top-0 bg-white p-6 border-b border-gray-100 flex justify-between items-center z-10">
+                <h2 className="text-2xl font-bold text-gray-900">Health Tips & Recommendations</h2>
+                <button 
+                  onClick={() => setShowTipsModal(false)}
+                  className="rounded-full p-2 hover:bg-gray-100 transition-colors"
+                >
+                  <svg className="h-6 w-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="p-6">
+                <p className="text-gray-600 mb-8">
+                  Following these evidence-based health tips can help you maintain and improve your overall wellbeing. 
+                  Remember that small, consistent changes lead to significant health benefits over time.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {healthTips.map((tip, index) => (
+                    <div 
+                      key={index} 
+                      className="bg-white border border-gray-100 rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300"
+                    >
+                      <div className="flex items-center space-x-4 mb-4">
+                        <div className={`flex h-12 w-12 items-center justify-center rounded-full ${tip.color} text-2xl`}>
+                          {tip.icon}
+                        </div>
+                        <h3 className="text-xl font-semibold text-gray-900">{tip.title}</h3>
+                      </div>
+                      <p className="text-gray-600">{tip.description}</p>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className="mt-8 flex justify-center">
+                  <button 
+                    onClick={() => setShowTipsModal(false)}
+                    className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  >
+                    Back to Dashboard
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Footer */}
         <footer className="mt-16 text-center">

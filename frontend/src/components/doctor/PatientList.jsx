@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Moon, Sun, User, Calendar, Activity, Clock } from 'lucide-react';
-import { supabase } from '../../supabase.js'; // Assuming you have a supabase client setup
+import { supabase } from '../../supabase.js';
+import { useNavigate } from 'react-router-dom'; // Import for navigation
 
 function PatientList() {
   const [darkMode, setDarkMode] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [patients, setPatients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
     fetchPatients();
@@ -16,32 +18,54 @@ function PatientList() {
     try {
       setLoading(true);
       
-      // First, just check if you can access the patient table
-      const { data, error } = await supabase
-        .from('patient')  // Make sure this matches your actual table name
-        .select('*')
-        .limit(10);
+      // Get patients with their basic information
+      const { data: patientData, error: patientError } = await supabase
+        .from('patient')
+        .select('*');
   
-      if (error) {
-        console.error("Error fetching patients:", error);
-        throw error;
+      if (patientError) {
+        console.error("Error fetching patients:", patientError);
+        throw patientError;
       }
       
-      console.log("Patient data:", data);
+      console.log("Patient data:", patientData);
       
-      if (data && data.length > 0) {
-        // Process simple data for display
-        const processedPatients = data.map(p => ({
-          id: p.id,
-          name: `${p.first_name || ''} ${p.last_name || ''}`.trim() || 'Unknown',
-          age: p.dob ? calculateAge(p.dob) : 'Unknown',
-          condition: p.condition || 'Not specified',
-          lastVisit: p.appointments?.[0]?.appointment_date
-          ? new Date(p.appointments[0].appointment_date).toLocaleDateString()
-          : 'Unknown',
-          status: 'Unknown',
-          email: p.email || ''
-        }));
+      if (patientData && patientData.length > 0) {
+        // Create an array to store processed patient data
+        const processedPatients = [];
+        
+        // For each patient, fetch their latest appointment
+        for (const patient of patientData) {
+          // Fetch the most recent appointment for this patient
+          const { data: appointmentData, error: appointmentError } = await supabase
+            .from('appointments')
+            .select('*')
+            .eq('patient_id', patient.id)
+            .order('appointment_date', { ascending: false })
+            .limit(1);
+            
+          if (appointmentError) {
+            console.error(`Error fetching appointments for patient ${patient.id}:`, appointmentError);
+          }
+          
+          // Get latest appointment info
+          const latestAppointment = appointmentData && appointmentData.length > 0 ? appointmentData[0] : null;
+          
+          // Process patient data with appointment info
+          processedPatients.push({
+            id: patient.id,
+            name: `${patient.first_name || ''} ${patient.last_name || ''}`.trim() || 'Unknown',
+            age: patient.dob ? calculateAge(patient.dob) : 'Unknown',
+            condition: patient.existing_conditions || 'Not specified',
+            lastVisit: latestAppointment 
+              ? new Date(latestAppointment.appointment_date).toLocaleDateString() 
+              : 'No previous visits',
+            status: latestAppointment?.status || 'New',
+            appointmentType: latestAppointment?.appointment_type || '',
+            email: patient.email || '',
+            phone: patient.phone_number || ''
+          });
+        }
         
         setPatients(processedPatients);
       } else {
@@ -67,11 +91,18 @@ function PatientList() {
     return age;
   };
 
+  // Function to handle View Details button click
+  const handleViewDetails = (patientId) => {
+    // Navigate to patient details page with the patient ID
+    navigate(`/patient/${patientId}`);
+  };
+
   const filteredPatients = patients.filter(patient =>
     patient.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const getStatusColor = (status) => {
+    const statusLower = (status || '').toLowerCase();
     const colors = {
       'emergency': 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
       'completed': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
@@ -79,7 +110,7 @@ function PatientList() {
       'new': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
       'cancelled': 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
     };
-    return colors[status.toLowerCase()] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
+    return colors[statusLower] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
   };
 
   return (
@@ -165,7 +196,7 @@ function PatientList() {
                     <h3 className="text-xl font-semibold mb-1">{patient.name}</h3>
                     <div className="flex flex-wrap gap-2 items-center">
                       <span className={`text-sm px-3 py-1 rounded-full ${getStatusColor(patient.status)}`}>
-                        {patient.status}
+                        {patient.status || 'Unknown'}
                       </span>
                       <span className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                         Age: {patient.age}
@@ -190,11 +221,16 @@ function PatientList() {
                   <div className={`flex items-center gap-2 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                     <Clock className="h-4 w-4" />
                     <span>Last Visit: {patient.lastVisit}</span>
-                    <span className="ml-2 px-2 py-1 rounded-md bg-opacity-70 text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
-                      {patient.appointmentType}
-                    </span>
+                    {patient.appointmentType && (
+                      <span className="ml-2 px-2 py-1 rounded-md bg-opacity-70 text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">
+                        {patient.appointmentType}
+                      </span>
+                    )}
                   </div>
-                  <button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center gap-2">
+                  <button 
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center gap-2"
+                    onClick={() => handleViewDetails(patient.id)}
+                  >
                     <Calendar className="h-4 w-4" />
                     View Details
                   </button>
