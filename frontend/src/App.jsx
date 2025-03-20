@@ -20,7 +20,8 @@ import ProfileD from './components/doctor/ProfileD';
 import ReportCreation from './components/doctor/ReportCreation';
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Chatbot from './components/chatbot/Chatbot.jsx'; // Import Chatbot
-import DoctorSearch from './components/patient/DoctorSearch.jsx'
+import DoctorSearch from './components/patient/DoctorSearch.jsx';
+import PatientDetails from './components/doctor/PatientDetails.jsx';
 
 import WoundDetection from './components/Home/WoundDetection.jsx';
 
@@ -59,6 +60,9 @@ function App() {
       <Route path="/doctor/profileD/:id" element={<ProfileD />} />
       <Route path="/doctor/reportcreation/:id" element={<ReportCreation />} />
       <Route path="/wound" element={<WoundDetection />} />
+
+      
+        <Route path="/patient/:patientId" element={<PatientDetails />} />
 
       </Routes>
       {/* Global Chatbot Button */}
