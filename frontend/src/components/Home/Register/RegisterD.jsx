@@ -58,8 +58,50 @@ const RegisterD = () => {
     // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+    
+        setFormData((prevData) => {
+            let updatedData = { ...prevData, [name]: value };
+    
+            // Convert time to minutes for comparison
+            const toMinutes = (time) => {
+                const [hours, minutes] = time.split(":").map(Number);
+                return hours * 60 + minutes;
+            };
+    
+            if (name === "start_hours" && updatedData.end_hours) {
+                const startTime = toMinutes(value);
+                const endTime = toMinutes(updatedData.end_hours);
+    
+                if (startTime >= endTime) {
+                    alert("Start time must be earlier than End time.");
+                    return prevData; // Prevent updating
+                }
+    
+                if (endTime - startTime < 120) {
+                    alert("The gap between Start and End time must be at least 2 hours.");
+                    return prevData; // Prevent updating
+                }
+            }
+    
+            if (name === "end_hours" && updatedData.start_hours) {
+                const startTime = toMinutes(updatedData.start_hours);
+                const endTime = toMinutes(value);
+    
+                if (endTime <= startTime) {
+                    alert("End time must be later than Start time.");
+                    return prevData; // Prevent updating
+                }
+    
+                if (endTime - startTime < 120) {
+                    alert("The gap between Start and End time must be at least 2 hours.");
+                    return prevData; // Prevent updating
+                }
+            }
+    
+            return updatedData; // Update state if valid
+        });
     };
+    
 
     // Handle checkbox changes for available_date
     const handleCheckboxChange = (e) => {
@@ -71,10 +113,20 @@ const RegisterD = () => {
 
             return { ...prevData, available_date: updatedDates };
         });
+        console.log(available_date);
     };
 
     // Update doctor data in Supabase
     const handleSubmit = async (e) => {
+        if (!formData.start_hours || !formData.end_hours) {
+            alert("Start Hours and End Hours are required!");
+            return;
+        }
+    
+        if (!formData.available_date || formData.available_date.length === 0) {
+            alert("Please select at least one available day!");
+            return;
+        }
         e.preventDefault();
         setLoading(true);
         setError(null);
@@ -324,6 +376,7 @@ const RegisterD = () => {
                                         type="time"
                                         id="start_hours"
                                         name="start_hours"
+                                        required
                                         value={formData.start_hours}
                                         onChange={handleChange}
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
@@ -336,6 +389,7 @@ const RegisterD = () => {
                                         type="time"
                                         id="end_hours"
                                         name="end_hours"
+                                        required
                                         value={formData.end_hours}
                                         onChange={handleChange}
                                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
@@ -351,6 +405,7 @@ const RegisterD = () => {
                                                     type="checkbox"
                                                     name="available_date"
                                                     value={day}
+                                                    required
                                                     checked={formData.available_date.includes(day)}
                                                     onChange={handleCheckboxChange}
                                                     className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"

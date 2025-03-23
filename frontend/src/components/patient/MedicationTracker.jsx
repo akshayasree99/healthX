@@ -213,7 +213,7 @@ const MedicationTracker = () => {
       const { data, error } = await supabase
         .from("medications")
         .select("*")
-        .eq("patient_id", userId)
+        .eq("id", userId)
         .order("created_at", { ascending: false });
         
       if (error) throw error;
@@ -275,7 +275,7 @@ const MedicationTracker = () => {
       else {
         const newMedication = { 
           ...newMed, 
-          patient_id: user.id,
+          id: user.id,
           status: "Pending"
         };
         

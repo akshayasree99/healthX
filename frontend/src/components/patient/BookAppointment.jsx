@@ -48,20 +48,26 @@ const BookAppointment = () => {
           last_name, 
           email,
           license_number,
-          doctor_id
+          doctor_id,
+          start_hours,
+          end_hours,
+          available_date  
         `);
-
+  
       if (error) throw error;
-
+  
       const formattedDoctors = data.map(doctor => ({
         id: doctor.id,
         doctorId: doctor.doctor_id,
         name: `${doctor.first_name} ${doctor.last_name}`,
         email: doctor.email,
         licenseNumber: doctor.license_number,
-        photo: `/default-doctor.png`
+        photo: `/default-doctor.png`,
+        startTime: doctor.start_hours,
+        endTime: doctor.end_hours,
+        availableDays: doctor.available_date || [] // Store available days
       }));
-
+  
       setDoctors(formattedDoctors);
     } catch (error) {
       console.error('Error fetching doctors:', error);
@@ -69,11 +75,39 @@ const BookAppointment = () => {
       setLoading(false);
     }
   };
+  
+  
+
+  const generateTimeSlots = (startTime, endTime) => {
+    if (!startTime || !endTime) return [];
+
+    const slots = [];
+    let currentTime = new Date(`1970-01-01T${startTime}`);
+    const end = new Date(`1970-01-01T${endTime}`);
+
+    while (currentTime < end) {
+      slots.push(currentTime.toTimeString().slice(0, 5));
+      currentTime.setHours(currentTime.getHours() + 1);
+    }
+
+    return slots;
+  };
 
   const handleNext = () => setStep(step + 1);
   const handleBack = () => setStep(step - 1);
   
   const handleChange = (field, value) => {
+    if (field === 'date') {
+      const selectedDate = new Date(value);
+      const dayOfWeek = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+  
+      const selectedDoctor = doctors.find(doc => doc.id === appointmentData.doctor_id);
+      
+      if (selectedDoctor && !selectedDoctor.availableDays.includes(dayOfWeek)) {
+        alert(`Doctor is not available on ${dayOfWeek}. Please select another date.`);
+        return;
+      }
+    }
     setAppointmentData({ ...appointmentData, [field]: value });
   };
 
@@ -259,18 +293,36 @@ const BookAppointment = () => {
                       value={appointmentData.date}
                       onChange={(e) => handleChange('date', e.target.value)}
                       className="w-full p-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+                      min={new Date().toISOString().split("T")[0]} // Prevent past dates
                     />
+
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Time
                     </label>
-                    <input
-                      type="time"
-                      value={appointmentData.time}
-                      onChange={(e) => handleChange('time', e.target.value)}
-                      className="w-full p-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
-                    />
+                    {appointmentData.doctor_id ? (
+                      <div className="grid grid-cols-3 gap-4">
+                        {generateTimeSlots(
+                          doctors.find(doc => doc.id === appointmentData.doctor_id)?.startTime,
+                          doctors.find(doc => doc.id === appointmentData.doctor_id)?.endTime
+                        ).map((slot, index) => (
+                          <button
+                            key={index}
+                            onClick={() => handleChange('time', slot)}
+                            className={`p-3 border-2 rounded-lg transition-all duration-300 ${
+                              appointmentData.time === slot
+                                ? 'bg-indigo-600 text-white border-indigo-600'
+                                : 'bg-white border-gray-200 hover:border-indigo-600'
+                            }`}
+                          >
+                            {slot}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-600">No schedule time available for this doctor.</p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">

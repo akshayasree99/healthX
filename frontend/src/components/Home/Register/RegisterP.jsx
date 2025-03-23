@@ -37,15 +37,43 @@ export default function PatientProfile() {
   }, [patientId]);
 
   const fetchPatientData = async () => {
-    const { data, error } = await supabase
-      .from("patient")
-      .select("*")
-      .eq("id", patientId)
-      .single();
+    try {
+      const { data, error } = await supabase
+        .from("patient")
+        .select("*")
+        .eq("patient_id", patientId)
+        .single();
 
-    if (error) {
-      console.error("Error fetching patient data:", error);}
-    
+      if (error) throw error;
+
+      if (data) {
+        // Set the state with fetched data
+        setFirstName(data.first_name || "");
+        setLastName(data.last_name || "");
+        setDateOfBirth(data.dob || "");
+        setSex(data.sex || "");
+        setEmail(data.email || "");
+        setPhone(data.phone_number || "");
+        setAddress(data.address || "");
+        setNationality(data.nationality || "");
+        setBloodGroup(data.blood_group || "");
+        setHeight(data.height || "");
+        setWeight(data.weight || "");
+        setAllergies(data.allergies || "");
+        setConditions(data.existing_conditions || "");
+        setMedications(data.current_medication || "");
+        setFamilyHistory(data.family_med_history || "");
+        setEmergencyName(data.emergency_cont_name || "");
+        setRelation(data.emergency_relation || "");
+        setEmergencyPhone(data.emergency_contact || "");
+        setEmergencyEmail(data.emergency_email || "");
+        setLifestyle(data.life_style || "");
+        setLanguage(data.preferred_lang || "");
+        setCommunication(data.communication_preferred || "");
+      }
+    } catch (err) {
+      console.error("Error fetching patient data:", err.message);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -56,8 +84,6 @@ export default function PatientProfile() {
       return;
     }
   
-    console.log("Fetching existing patient data...");
-  
     try {
       // Step 1: Fetch Existing Data
       const { data: existingData, error: fetchError } = await supabase
@@ -66,17 +92,12 @@ export default function PatientProfile() {
         .eq("patient_id", patientId)
         .maybeSingle();
   
-      if (fetchError) throw new Error("Error fetching existing data: " + fetchError.message);
-      else{
-        console.log(existingData);
-      }
-      
+      if (fetchError) throw fetchError;
+
       if (!existingData) {
         console.warn("No existing patient data found for this ID.");
         return;
       }
-  
-      console.log("Existing data:", existingData);
   
       // Step 2: Prepare Updated Data
       const updatedData = {
@@ -104,29 +125,21 @@ export default function PatientProfile() {
         communication_preferred: communication || null,
       };
   
-      console.log("Updating profile with:", updatedData);
-  
       // Step 3: Update Patient Data
-      const { data: updatedResponse, error: updateError } = await supabase
+      const { error: updateError } = await supabase
         .from("patient")
         .update(updatedData)
-        .eq("patient_id", patientId)
-        .select();
+        .eq("patient_id", patientId);
+
+      if (updateError) throw updateError;
   
-      if (updateError) throw new Error("Error updating profile: " + updateError.message);
-  
-      console.log("Updated Data Response:", updatedResponse);
       console.log("Profile updated successfully!");
-      console.log(patientId);
-  
       navigate(`/patient/profile/${patientId}`);
   
     } catch (err) {
       console.error("Error saving patient profile:", err.message);
     }
   };
-  
-
 
   return (
     <div className="container mx-auto py-10 px-4 max-w-4xl">
